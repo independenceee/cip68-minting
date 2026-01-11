@@ -33,20 +33,7 @@ validator mint(
         |> address.with_delegation_key(store_stake_credential)
     let platform_address = address.from_verification_key(platform)
     when redeemer is {
-      // @action: Mint -  Conditions for minting assets (NFT/Token)
-      // - check_signed_by_author: When a user mints an asset, the datum of the store validator contains an author field and the user must provide a signature to identify that this is the author who minted the asset. This condition is fulfilled by comparing the signature entered in the datum of the store validator. 
-      // - check_platform_fee: Check in the transaction output that there exists an utxo containing the platform's minimum fee and is sent to the platform's address defined in params.
-      // - check_format_asset: Check that the specified fields such as name, image, media_type, author exist in the store validator's datum (ask asset metadata). These fields are required.
-      // - amount_tx_output: number of utxo output = 4 where 1 utxo for platform_fee address, 1 utxo for store validator address and 2 utxo recipient address where 1 utxo contains CIP222 Token.
-      // - check_store_address: Check that the asset (CIP100) sent to an address must be the store validator's address
       Mint -> True
-      // @action: Burn - Conditions for burning assets (NFT/Token)
-      // - signed_by_author: When a user performs asset burning, the datum of the store validator contains an author field and the user must provide a signature to identify that this is the author performing the asset burning transaction. This condition is performed by comparing the signature entered in the datum of the store validator.
-      // - amount_tx_output: The output of the transaction is 2 (1 utxo of the platform address, 1uxto of the recipient address).
-      // - check_platform_fee: Check the amount of ADA sent to the platform must be greater than or equal to the amount of ADA defined in the validator's params.
-      // - check_amount: Check that the amount of user tokens the sender wants to burn is valid and does not exceed the amount they own.
-      // - ada_attacked: Check where the ADA attached to the reference token will go (to the wallet the user currently owns).
-      // - check_amount_burn: The author will burn both NFTs (User Token, Reference Token) with the given amount.
       Burn -> True
     }
   }
