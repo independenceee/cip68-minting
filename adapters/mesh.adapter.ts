@@ -2,7 +2,9 @@ import {
     applyParamsToScript,
     deserializeAddress,
     deserializeDatum,
+    IEvaluator,
     IFetcher,
+    mConStr0,
     MeshTxBuilder,
     MeshWallet,
     PlutusScript,
@@ -17,7 +19,7 @@ import { blockfrostProvider } from "../providers/blockfrost.provider";
 import plutus from "../contract/plutus.json";
 import { Plutus } from "../types";
 import { DECIMAL_PLACE, title } from "../constants/common.constant";
-import { APP_NETWORK_ID } from "../constants/enviroments.constant";
+import { APP_NETWORK_ID, APP_WALLET_ADDRESS } from "../constants/enviroments.constant";
 
 /**
  * @description
@@ -29,9 +31,10 @@ import { APP_NETWORK_ID } from "../constants/enviroments.constant";
  */
 export class MeshAdapter {
     public policyId: string;
+    public platformFee: number;
     public spendAddress: string;
-    public threshold: number;
-    public allowance: number;
+    public issuerAddress: string;
+    public platformAddress: string;
 
     protected mintCompileCode: string;
     protected mintScriptCbor: string;
@@ -42,6 +45,7 @@ export class MeshAdapter {
     protected spendScript: PlutusScript;
 
     protected fetcher: IFetcher;
+    protected elvaluator: IEvaluator;
     protected meshWallet: MeshWallet;
     protected meshTxBuilder: MeshTxBuilder;
 
@@ -55,26 +59,25 @@ export class MeshAdapter {
      *
      * @param {MeshWallet} meshWallet - Active Mesh wallet instance to connect.
      */
-    constructor({ meshWallet = null!, threshold = 1, allowance = 10* DECIMAL_PLACE }: { meshWallet: MeshWallet; threshold?: number, allowance: number }) {
+    constructor({ meshWallet = null!, platformAddress, platformFee }: { meshWallet: MeshWallet; platformAddress?: string; platformFee?: number }) {
         this.meshWallet = meshWallet;
-        this.threshold = threshold;
-        this.allowance = allowance
+        this.platformAddress = platformAddress ? platformAddress : APP_WALLET_ADDRESS;
+        this.platformFee = platformFee ? platformFee : DECIMAL_PLACE;
+        this.issuerAddress = this.meshWallet.getChangeAddress();
+
         this.fetcher = blockfrostProvider;
+        this.elvaluator = blockfrostProvider;
         this.meshTxBuilder = new MeshTxBuilder({
             fetcher: this.fetcher,
-            evaluator: blockfrostProvider,
+            evaluator: this.elvaluator,
         });
 
-        this.mintCompileCode = this.readValidator(plutus as Plutus, title.mint);
-        this.mintScriptCbor = applyParamsToScript(this.mintCompileCode, [this.threshold, this.allowance]);
-        this.mintScript = {
-            code: this.mintScriptCbor,
-            version: "V3",
-        };
-        this.policyId = resolveScriptHash(this.mintScriptCbor, "V3");
-
         this.spendCompileCode = this.readValidator(plutus as Plutus, title.spend);
-        this.spendScriptCbor = applyParamsToScript(this.spendCompileCode, [this.threshold, this.allowance]);
+        this.spendScriptCbor = applyParamsToScript(this.spendCompileCode, [
+            this.platformFee,
+            mConStr0([deserializeAddress(this.issuerAddress).pubKeyHash, deserializeAddress(this.issuerAddress).stakeCredentialHash]),
+            mConStr0([deserializeAddress(this.platformAddress).pubKeyHash, deserializeAddress(this.platformAddress).stakeCredentialHash]),
+        ]);
         this.spendScript = {
             code: this.spendScriptCbor,
             version: "V3",
@@ -82,11 +85,25 @@ export class MeshAdapter {
         this.spendAddress = serializeAddressObj(
             scriptAddress(
                 deserializeAddress(serializePlutusScript(this.spendScript, undefined, APP_NETWORK_ID, false).address).scriptHash,
-                "",
+                deserializeAddress(this.platformAddress).stakeCredentialHash,
                 false,
             ),
             APP_NETWORK_ID,
         );
+
+        this.mintCompileCode = this.readValidator(plutus as Plutus, title.mint);
+        this.mintScriptCbor = applyParamsToScript(this.mintCompileCode, [
+            this.platformFee,
+            deserializeAddress(this.issuerAddress).pubKeyHash,
+            deserializeAddress(this.platformAddress).pubKeyHash,
+            deserializeAddress(serializePlutusScript(this.spendScript, undefined, APP_NETWORK_ID, false).address).scriptHash,
+            deserializeAddress(this.platformAddress).stakeCredentialHash,
+        ]);
+        this.mintScript = {
+            code: this.mintScriptCbor,
+            version: "V3",
+        };
+        this.policyId = resolveScriptHash(this.mintScriptCbor, "V3");
     }
 
     /**
@@ -203,59 +220,5 @@ export class MeshAdapter {
                 Number(amount[0].quantity) >= 5_000_000
             );
         })[0];
-    };
-
-    /**
-     * @description
-     * Retrieve wallet essentials for building a transaction:
-     * - Available UTxOs
-     * - A valid collateral UTxO (>= 5 ADA in lovelace)
-     * - Wallet's change address
-     *
-     * Flow:
-     * 1. Get all wallet UTxOs.
-     * 2. Ensure collateral exists (create one if missing).
-     * 3. Get wallet change address.
-     *
-     * @returns {Promise<{ utxos: UTxO[]; collateral: UTxO; walletAddress: string }>}
-     *          Object containing wallet UTxOs, a collateral UTxO, and change address.
-     *
-     * @throws {Error}
-     *         If UTxOs or wallet address cannot be retrieved.
-     */
-    protected convertDatum = ({
-        plutusData,
-    }: {
-        plutusData: string;
-    }): {
-        receiver: string;
-        owners: Array<string>;
-        signers: Array<string>;
-    } => {
-        try {
-            const datum = deserializeDatum(plutusData);
-            console.log(datum)
-            const receiver = "1"
-            // const receiver = serializeAddressObj(
-            //     pubKeyAddress(datum.fields[0].fields[0].bytes, datum.fields[0].fields[1].bytes, false),
-            //     APP_NETWORK_ID,
-            // );
-
-            const owners = datum.fields[1].list.map((owner: any) =>
-                serializeAddressObj(pubKeyAddress(owner.fields[0].bytes, owner.fields[1].bytes, false), APP_NETWORK_ID),
-            );
-
-            const signers = datum.fields[2].list.map((owner: any) =>
-                serializeAddressObj(pubKeyAddress(owner.fields[0].bytes, owner.fields[1].bytes, false), APP_NETWORK_ID),
-            );
-
-            return {
-                receiver: receiver,
-                owners: owners,
-                signers: signers,
-            };
-        } catch (error) {
-            throw new Error(String(error));
-        }
     };
 }

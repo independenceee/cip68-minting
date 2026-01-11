@@ -81,8 +81,8 @@ pub type StoreRedeemer {
 // Constant key for Datum / Metadata access
 // ================================
 //
-// author_key is a constant ByteArray used
+// author is a constant ByteArray used
 // as a standardized key when accessing
 // maps or metadata inside a datum.
 //
-pub const author_key: ByteArray = "_pk"
+pub const author: ByteArray = "author"
