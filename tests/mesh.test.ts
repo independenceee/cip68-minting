@@ -4,15 +4,9 @@ import { blockfrostProvider } from "../providers/blockfrost.provider";
 import { APP_MNEMONIC, APP_NETWORK_ID } from "../constants/enviroments.constant";
 import { DECIMAL_PLACE } from "../constants/common.constant";
 
-describe("A multisig treasury is a shared fund where spending requires approval from at least m of n participants, with a predefined spending limit for security.", function () {
+describe("Open source dynamic assets (Token/NFT) generator (CIP68).", function () {
     let meshWallet: MeshWallet;
-
-    // account 1 - addr_test1qz45qtdupp8g30lzzr684m8mc278s284cjvawna5ypwkvq7s8xszw9mgmwpxdyakl7dgpfmzywctzlsaghnqrl494wnqhgsy3g
-    // account 2 - addr_test1qr39uar0u87xrmptw0f8ryx5mp3scvc3pkehp57yj5zhugxdgese6p77sy9hk0rqc5wqd6n8vmfyqq9f7sdfz9dm0azqzmmdew
-    // account 3 - addr_test1qqy0z4ekhv8gcnmvkeakkaher82rlrx2yu9y79cjf4r704pqg73fhf002takqewlvjcy39dellyumg43f08uea0p6mps7pw77f
-    // account 4 - addr_test1qrpfhvwrmq0y27k2elu0seh65w6kwyxxee6sq7f9d2ax62e8wm6fj2y63rp3kql4skhu2wyt0uml07w2pggzpzh95ugqk9j5d9
-    // account 5 - addr_test1qpm9a92nk6grxwsxluqyjt9xd3cjcps90fjv8txm4spd6tv4mkujqpc7fzlvqu40kyvzh6fxmqp0578uk564ffqtfr7s9ppr9y
-
+    
     beforeEach(async function () {
         meshWallet = new MeshWallet({
             accountIndex: 0,
@@ -28,16 +22,15 @@ describe("A multisig treasury is a shared fund where spending requires approval 
 
     jest.setTimeout(600000000);
 
-    test("Deposit", async function () {
-        // return;
-
+    test("Mint", async function () {
+        return;
         const meshTxBuilder: MeshTxBuilder = new MeshTxBuilder({
             meshWallet: meshWallet,
             threshold: 2,
             allowance: 10 * DECIMAL_PLACE,
         });
 
-        const unsignedTx: string = await meshTxBuilder.deposit({
+        const unsignedTx: string = await meshTxBuilder.mint({
             name: "Aiken Course 2023",
             quantity: "10000000",
             receiver: "addr_test1qz45qtdupp8g30lzzr684m8mc278s284cjvawna5ypwkvq7s8xszw9mgmwpxdyakl7dgpfmzywctzlsaghnqrl494wnqhgsy3g",
@@ -60,7 +53,7 @@ describe("A multisig treasury is a shared fund where spending requires approval 
         });
     });
 
-    test("Execute", async function () {
+    test("Burn", async function () {
         return;
 
         const meshTxBuilder: MeshTxBuilder = new MeshTxBuilder({
@@ -69,8 +62,9 @@ describe("A multisig treasury is a shared fund where spending requires approval 
             allowance: 10 * DECIMAL_PLACE,
         });
 
-        const unsignedTx: string = await meshTxBuilder.execute({
-            name: "Aiken Course 2024",
+        const unsignedTx: string = await meshTxBuilder.burn({
+           assetName: "",
+           quantity: ""
         });
 
         const signedTx = await meshWallet.signTx(unsignedTx, true);
@@ -83,7 +77,7 @@ describe("A multisig treasury is a shared fund where spending requires approval 
         });
     });
 
-    test("Signature", async function () {
+    test("Update", async function () {
         // return;
 
         const meshTxBuilder: MeshTxBuilder = new MeshTxBuilder({
@@ -92,7 +86,7 @@ describe("A multisig treasury is a shared fund where spending requires approval 
             allowance: 10 * DECIMAL_PLACE,
         });
 
-        const unsignedTx: string = await meshTxBuilder.signature({
+        const unsignedTx: string = await meshTxBuilder.update({
             name: "Aiken Course 2023",
         });
 
