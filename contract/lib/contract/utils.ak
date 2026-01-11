@@ -51,13 +51,19 @@ pub fn check_output_remove(
   platform_fee: Int,
   user_address: Address,
 ) -> Bool {
-  let outputs = list.filter(outputs, fn(output) { or {
+  let outputs =
+    list.filter(
+      outputs,
+      fn(output) {
+        or {
           and {
             lovelace_of(output.value) >= platform_fee,
             output.address.payment_credential == platform_address.payment_credential,
           },
           output.address.payment_credential == user_address.payment_credential,
-        } })
+        }
+      },
+    )
 
   list.length(outputs) == 2
 }
@@ -322,10 +328,12 @@ pub fn check_remove_asset(
               let exist =
                 list.find(
                   reference_asset,
-                  fn((_policy_id, asset_name, _amount)) { or {
+                  fn((_policy_id, asset_name, _amount)) {
+                    or {
                       bytearray.starts_with(asset_name, cip68.prefix_100),
                       bytearray.starts_with(asset_name, cip68.prefix_222),
-                    } },
+                    }
+                  },
                 )
 
               when exist is {

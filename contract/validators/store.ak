@@ -39,8 +39,7 @@ validator store(
       input.output.value
         |> without_lovelace()
     let metadatum_input: CIP68 = datum_input
-    expect author_input: ByteArray =
-      cip68.get(metadatum_input, types.author)
+    expect author_input: ByteArray = cip68.get(metadatum_input, types.author)
     let signed_by_author = tx.verify_signature(extra_signatories, author_input)
 
     when signed_by_author is {
