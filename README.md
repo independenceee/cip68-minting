@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="public/logo.png" width="120" alt="CIP-68 NFT Standard Logo" />
+<img src="https://www.cardano2vn.io/_next/static/media/loading.db59b266.png" width="120" alt="C2VN Logo" />
 
 # **CIP-68 NFT Reference Implementation**
 
