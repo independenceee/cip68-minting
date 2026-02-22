@@ -11,7 +11,11 @@
   },
   "dependencies": {
     "@meshsdk/core": "1.8.14",
+    "@types/mdx": "^2.0.13",
     "cbor": "^10.0.11",
+    "fumadocs-core": "^16.6.4",
+    "fumadocs-mdx": "^14.2.7",
+    "fumadocs-ui": "^16.6.4",
     "next": "16.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3"
