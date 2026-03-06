@@ -28,15 +28,16 @@ describe("Open source dynamic assets (Token/NFT) generator (CIP68).", function (
             meshWallet: meshWallet,
         });
 
+        await meshTxBuilder.initalize();
+
         const unsignedTx: string = await meshTxBuilder.mint({
-            assetName: "Aiken Course 2024",
+            assetName: "Aiken Course 2030",
             quantity: "1",
             metadata: {
                 name: "Aiken Course 2025",
                 image: "ipfs://image.png",
                 description: "This is a simple example of CIP-68",
                 mediaType: "image/png",
-                author: deserializeAddress(meshWallet.getChangeAddress()).pubKeyHash,
             },
         });
 
@@ -86,7 +87,6 @@ describe("Open source dynamic assets (Token/NFT) generator (CIP68).", function (
                 image: "ipfs://image.png",
                 description: "This is a simple example of CIP-68",
                 mediaType: "image/png",
-                author: deserializeAddress(meshWallet.getChangeAddress()).pubKeyHash,
             },
         });
 

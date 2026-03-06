@@ -30,19 +30,19 @@ import { APP_NETWORK_ID, APP_WALLET_ADDRESS } from "../constants/enviroments.con
  * - Preparing data for transaction building
  */
 export class MeshAdapter {
-    public policyId: string;
+    public policyId!: string;
     public platformFee: number;
-    public spendAddress: string;
-    public issuerAddress: string;
+    public spendAddress!: string;
+    public issuerAddress!: string;
     public platformAddress: string;
 
-    protected mintCompileCode: string;
-    protected mintScriptCbor: string;
-    protected mintScript: PlutusScript;
+    protected mintCompileCode!: string;
+    protected mintScriptCbor!: string;
+    protected mintScript!: PlutusScript;
 
-    protected spendCompileCode: string;
-    protected spendScriptCbor: string;
-    protected spendScript: PlutusScript;
+    protected spendCompileCode!: string;
+    protected spendScriptCbor!: string;
+    protected spendScript!: PlutusScript;
 
     protected fetcher: IFetcher;
     protected elvaluator: IEvaluator;
@@ -63,15 +63,46 @@ export class MeshAdapter {
         this.meshWallet = meshWallet;
         this.platformAddress = platformAddress ? platformAddress : APP_WALLET_ADDRESS;
         this.platformFee = platformFee ? platformFee : DECIMAL_PLACE;
-        this.issuerAddress = this.meshWallet.getChangeAddress();
-
         this.fetcher = blockfrostProvider;
         this.elvaluator = blockfrostProvider;
         this.meshTxBuilder = new MeshTxBuilder({
             fetcher: this.fetcher,
             evaluator: this.elvaluator,
         });
+    }
 
+    /**
+     * Initialize all required data for the smart contract interaction.
+     *
+     * This function performs the following steps:
+     * 1. Retrieves the issuer (wallet) address from the connected Mesh wallet.
+     * 2. Reads and compiles the `spend` validator from the compiled Plutus scripts.
+     * 3. Applies required parameters to the spend script:
+     *    - Platform fee
+     *    - Issuer credential (pubKeyHash and stakeCredentialHash)
+     *    - Platform credential (pubKeyHash and stakeCredentialHash)
+     * 4. Creates the final spend script object and derives the corresponding script address.
+     * 5. Reads and compiles the `mint` validator.
+     * 6. Applies parameters to the mint script including:
+     *    - Platform fee
+     *    - Issuer public key hash
+     *    - Platform public key hash
+     *    - Spend script hash
+     *    - Platform stake credential hash
+     * 7. Constructs the minting policy script and calculates the policyId.
+     *
+     * After initialization, the following properties will be available:
+     * - issuerAddress
+     * - spendScript
+     * - spendAddress
+     * - mintScript
+     * - policyId
+     *
+     * This method must be executed before performing any transaction
+     * such as minting, locking funds, or spending UTXOs.
+     */
+    public initalize = async () => {
+        this.issuerAddress = await this.meshWallet.getChangeAddress();
         this.spendCompileCode = this.readValidator(plutus as Plutus, title.spend);
         this.spendScriptCbor = applyParamsToScript(this.spendCompileCode, [
             this.platformFee,
@@ -104,7 +135,7 @@ export class MeshAdapter {
             version: "V3",
         };
         this.policyId = resolveScriptHash(this.mintScriptCbor, "V3");
-    }
+    };
 
     /**
      * @description

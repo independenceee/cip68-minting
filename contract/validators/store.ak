@@ -19,8 +19,8 @@ use validation/find.{output_by_addr_value}
 
 validator store(
   platform_fee: Int,
-  issuer: VerificationKeyHash,
-  platform: VerificationKeyHash,
+  issuer: Address,
+  platform: Address,
 ) {
   spend(
     datum: Option<CIP68>,
