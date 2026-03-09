@@ -5,9 +5,9 @@ use cardano/transaction.{InlineDatum, Input, NoDatum, Transaction}
 use cip.{cip68_100, cip68_222}
 use contract/types.{Burn, Mint, MintRedeemer, Remove, StoreRedeemer, Update}
 use mocktail.{
-  add_input, complete, mint, mock_policy_id, mock_pub_key_hash,
-  mock_script_hash, mock_script_output, mock_utxo_ref, mocktail_tx,
-  required_signer_hash, tx_out, tx_out_inline_datum,
+  add_input, complete, mint, mock_policy_id, mock_pub_key_hash, mock_script_hash,
+  mock_script_output, mock_utxo_ref, mocktail_tx, required_signer_hash, tx_out,
+  tx_out_inline_datum,
 }
 use store as store_validator
 use types/cip68.{CIP68}

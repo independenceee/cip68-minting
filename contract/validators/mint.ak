@@ -1,6 +1,6 @@
 use aiken/collection/list
 use aiken/crypto.{ScriptHash, VerificationKeyHash}
-use cardano/address.{Address}
+use cardano/address
 use cardano/assets.{PolicyId, without_lovelace}
 use cardano/transaction.{Transaction}
 use contract/types.{Burn, Mint, MintRedeemer}
@@ -15,9 +15,10 @@ use types/cip68
 // @params - store: The place to store reference tokens of user tokens in nfts minted according to CIP68 of the platform.
 validator mint(
   platform_fee: Int,
-  issuer: Address,
-  platform: Address,
-  store: Address
+  issuer: VerificationKeyHash,
+  platform: VerificationKeyHash,
+  store_payment_credential: ScriptHash,
+  store_stake_credential: VerificationKeyHash,
 ) {
   mint(redeemer: MintRedeemer, policy_id: PolicyId, transaction: Transaction) {
     let Transaction { inputs, outputs, extra_signatories, mint, .. } =
