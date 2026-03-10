@@ -18,8 +18,8 @@ import {
 import { blockfrostProvider } from "../providers/blockfrost.provider";
 import plutus from "../contract/plutus.json";
 import { Plutus } from "../types";
-import { DECIMAL_PLACE, title } from "../constants/common.constant";
-import { APP_NETWORK_ID, APP_WALLET_ADDRESS } from "../constants/enviroments.constant";
+import { DECIMAL_PLACE, title } from "../constants/common";
+import { APP_NETWORK_ID, APP_WALLET_ADDRESS } from "../constants/enviroments/";
 
 /**
  * @description

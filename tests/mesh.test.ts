@@ -1,8 +1,8 @@
 import { deserializeAddress, MeshWallet } from "@meshsdk/core";
 import { MeshTxBuilder } from "../txbuilders/mesh.txbuilder";
-import { blockfrostProvider } from "../providers/blockfrost.provider";
-import { APP_MNEMONIC, APP_NETWORK_ID } from "../constants/enviroments.constant";
-import { DECIMAL_PLACE } from "../constants/common.constant";
+import { APP_MNEMONIC, APP_NETWORK_ID } from "@/constants/enviroments";
+import { DECIMAL_PLACE } from "../constants/common";
+import { blockfrostProvider } from "@/providers/cardano";
 
 describe("Open source dynamic assets (Token/NFT) generator (CIP68).", function () {
     let meshWallet: MeshWallet;

@@ -1,6 +1,6 @@
 import { getPkHash } from "@/libs/utils";
 import { MeshAdapter } from "../adapters/mesh.adapter";
-import { APP_NETWORK } from "../constants/enviroments.constant";
+import { APP_NETWORK } from "../constants/enviroments/";
 import { deserializeAddress, mConStr0, mConStr1, stringToHex, metadataToCip68, CIP68_222, CIP68_100 } from "@meshsdk/core";
 
 export class MeshTxBuilder extends MeshAdapter {
