@@ -27,8 +27,8 @@ export default function Home() {
                 <div className="absolute inset-0 flex items-center justify-center opacity-5">
                     <div className="text-center">
                         <div className="text-9xl font-bold text-gray-300 dark:text-white/10">CARDANO</div>
-                        <div className="text-6xl font-bold text-gray-300 dark:text-white/10">MULTISIG TREASURY</div>
-                        <div className="text-4xl font-bold text-gray-300 dark:text-white/10">SECURE GOVERNANCE FOR DAOs</div>
+                        <div className="text-6xl font-bold text-gray-300 dark:text-white/10">CIP-68 METADATA</div>
+                        <div className="text-4xl font-bold text-gray-300 dark:text-white/10">DYNAMIC NFT STANDARD</div>
                     </div>
                 </div>
                 <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
@@ -49,9 +49,9 @@ export default function Home() {
                                 className="relative"
                             >
                                 <h1 className="mb-10 text-5xl font-bold lg:text-8xl">
-                                    <span className="block tracking-tight text-gray-900 dark:text-white">Decentralized</span>
+                                    <span className="block tracking-tight text-gray-900 dark:text-white">Dynamic NFT</span>
                                     <span className="block bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300 bg-clip-text tracking-tight text-gray-900 dark:text-transparent drop-shadow-lg">
-                                        Multisig Treasury
+                                        CIP-68 Metadata
                                     </span>
                                     <span className="mt-4 block text-2xl font-normal text-gray-600 dark:text-gray-300 lg:text-4xl">
                                         Built on Cardano Blockchain
@@ -72,8 +72,8 @@ export default function Home() {
                                         }}
                                         className="mb-6 text-xl leading-relaxed text-gray-600 dark:text-gray-300"
                                     >
-                                        <strong className="text-gray-900 dark:text-white">Manage shared funds securely</strong> using Cardano smart
-                                        contracts. Proposals, approvals, and executions are governed transparently by multiple signers.
+                                        <strong>Manage NFT metadata dynamically</strong> using the CIP-68 standard on Cardano. Reference NFTs allow
+                                        metadata to be stored securely and updated without reminting tokens.
                                     </motion.p>
                                     <motion.p
                                         variants={{
@@ -89,7 +89,7 @@ export default function Home() {
                                         }}
                                         className="text-lg text-gray-500 dark:text-gray-400"
                                     >
-                                        Trust-minimized treasury management for DAOs, teams, and communities.
+                                        Build dynamic NFTs and programmable metadata systems for Web3 applications.
                                     </motion.p>
                                 </div>
                                 <motion.div
@@ -110,13 +110,13 @@ export default function Home() {
                                         href={routers.home}
                                         className="inline-flex items-center justify-center whitespace-nowrap rounded-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:text-success text-xl bg-blue-600 dark:bg-white px-8 py-4 font-semibold text-white dark:text-blue-900 shadow-xl hover:bg-blue-700 dark:hover:bg-gray-100"
                                     >
-                                        Open Treasury Dashboard
+                                        Open Metadata Dashboard
                                     </Link>
                                     <Link
-                                        href={routers.login}
+                                        href={routers.documentation}
                                         className="inline-flex items-center justify-center whitespace-nowrap rounded-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-white/50 px-8 py-4 text-lg font-semibold text-gray-900 dark:text-white shadow-lg hover:bg-gray-200 dark:hover:bg-gray-700"
                                     >
-                                        How Multisig Works
+                                        How CIP-68 Works
                                     </Link>
                                 </motion.div>
                             </motion.section>
@@ -254,7 +254,7 @@ export default function Home() {
                         >
                             <div className="mb-4 flex items-center gap-4">
                                 <div className="h-1 w-12 bg-gradient-to-r from-purple-500 to-transparent"></div>
-                                <h2 className="text-3xl font-bold text-gray-900 dark:text-white lg:text-4xl">Core Principles of Multisig Treasury</h2>
+                                <h2 className="text-3xl font-bold text-gray-900 dark:text-white lg:text-4xl">Core Principles of CIP-68 Metadata</h2>
                             </div>
                             <p className="max-w-3xl text-lg text-gray-600 dark:text-gray-300">
                                 A multisig treasury on Cardano enforces collective decision-making, on-chain transparency, and cryptographic security
@@ -308,11 +308,10 @@ export default function Home() {
                                                         </div>
                                                     </div>
                                                     <p className="mb-3 text-base font-semibold text-purple-500 dark:text-purple-400">
-                                                        All transactions are on-chain and auditable
+                                                        All metadata is stored on-chain and verifiable
                                                     </p>
                                                     <p className="text-base leading-relaxed text-gray-600 dark:text-gray-300">
-                                                        Every proposal, approval, and execution is recorded immutably on Cardano blockchain — fully
-                                                        verifiable by any community member.
+                                                        Reference NFTs ensure transparency and data integrity for digital assets.
                                                     </p>
                                                 </div>
                                             </div>
