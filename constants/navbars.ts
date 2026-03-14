@@ -16,8 +16,8 @@ export const navbars = [
     {
         id: 2,
         target: "",
-        title: "Treasury",
-        href: routers.treasury,
+        title: "Mint",
+        href: routers.mint,
     },
     {
         id: 5,

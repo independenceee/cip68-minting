@@ -1,7 +1,10 @@
 export const routers = {
     home: "/",
     login: "/login",
-    treasury: "/treasury",
+    mint: "/mint",
+    mintOne: "/mint/one",
+    mintMultiple: "/mint/multiple",
+
     dashboard: "/dashboard",
-    documentation: "/documentation",
+    documentation: "/document",
 };

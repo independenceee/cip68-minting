@@ -1,4 +1,4 @@
-export default function TipperSkeleton() {
+export default function MintSkeleton() {
     return (
         <div className="rounded-sm px-5 py-3 group relative overflow-hidden border border-gray-200 dark:border-white/20 bg-white dark:bg-gray-800/50 backdrop-blur-sm shadow-xl animate-pulse">
             <div className="block">
