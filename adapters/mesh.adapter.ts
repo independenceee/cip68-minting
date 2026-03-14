@@ -1,25 +1,23 @@
 import {
     applyParamsToScript,
     deserializeAddress,
-    deserializeDatum,
     IEvaluator,
     IFetcher,
     mConStr0,
     MeshTxBuilder,
     MeshWallet,
     PlutusScript,
-    pubKeyAddress,
     resolveScriptHash,
     scriptAddress,
     serializeAddressObj,
     serializePlutusScript,
     UTxO,
 } from "@meshsdk/core";
-import { blockfrostProvider } from "../providers/blockfrost.provider";
 import plutus from "../contract/plutus.json";
 import { Plutus } from "../types";
 import { DECIMAL_PLACE, title } from "../constants/common";
-import { APP_NETWORK_ID, APP_WALLET_ADDRESS } from "../constants/enviroments/";
+import { APP_NETWORK_ID, APP_WALLET_ADDRESS } from "@/constants/enviroments";
+import { blockfrostProvider } from "@/providers/cardano";
 
 /**
  * @description

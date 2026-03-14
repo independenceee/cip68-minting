@@ -1,22 +1,29 @@
+use aiken/crypto.{VerificationKeyHash}
 use cardano/address.{Address}
 use cardano/assets.{PolicyId}
 use cardano/transaction.{OutputReference, Transaction}
-use contract/types.{
-  Burn, Mint, MintRedeemer, Remove, StoreRedeemer,
-  Update,
-}
+use cardano/tx.{verify_signature}
+use cocktail/vodka_address.{address_pub_key}
+use contract/types.{Burn, Mint, MintRedeemer, Remove, StoreRedeemer, Update}
+use contract/utils
 use types/cip68.{CIP68}
 
 validator mint(fee: Int, issuer: Address, platform: Address, store: Address) {
   mint(redeemer: MintRedeemer, policy_id: PolicyId, transaction: Transaction) {
-    let Transaction { inputs, outputs, extra_signatories, mint, ..} = transaction
+    let Transaction { inputs, outputs, extra_signatories, mint, .. } =
+      transaction
     let output_platform = utils.find_output(outputs, fee, platform)
+
+    expect Some(owner_pubkey_raw) = address_pub_key(issuer)
+    let owner_pubkey: VerificationKeyHash = owner_pubkey_raw
     when redeemer is {
-        Mint -> {
-            output_platform != None?,
+      Mint -> and {
+          output_platform != None,
+          verify_signature(extra_signatories, owner_pubkey),
         }
-        Burn -> {
-            output_platform != None?,
+      Burn -> and {
+          output_platform != None,
+          verify_signature(extra_signatories, owner_pubkey),
         }
     }
   }
@@ -26,9 +33,6 @@ validator mint(fee: Int, issuer: Address, platform: Address, store: Address) {
   }
 }
 
-
-// @validator: Store
-// @title: Open source dynamic assets (Token/NFT) generator CIP68
 validator store(fee: Int, issuer: Address, platform: Address) {
   spend(
     datum_option: Option<CIP68>,
@@ -37,14 +41,18 @@ validator store(fee: Int, issuer: Address, platform: Address) {
     transaction: Transaction,
   ) {
     expect Some(datum_input) = datum_option
-    let Transaction { inputs, outputs, extra_signatories, ..} = transaction
+    let Transaction { inputs, outputs, extra_signatories, .. } = transaction
     let output_platform = utils.find_output(outputs, fee, platform)
+     expect Some(owner_pubkey_raw) = address_pub_key(issuer)
+    let owner_pubkey: VerificationKeyHash = owner_pubkey_raw
     when redeemer is {
-        Update -> {
-            output_platform != None?,
+      Update -> and {
+          output_platform != None,
+          verify_signature(extra_signatories, owner_pubkey),
         }
-        Remove -> {
-            output_platform != Nonde?,
+      Remove -> and {
+          output_platform != None,
+          verify_signature(extra_signatories, owner_pubkey),
         }
     }
   }
