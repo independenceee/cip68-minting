@@ -7,19 +7,19 @@ import { motion } from "framer-motion";
 type FormData = {
     assetName: string;
     quantity: number;
-    metadata: Array<{ key: string; value: string }>;
+    metadata: Record<string, string>;
 };
 
-export default function MintNFTPage() {
+export default function Page() {
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState<FormData>({
         assetName: "",
         quantity: 1,
-        metadata: [
-            { key: "name", value: "" },
-            { key: "image", value: "" },
-            { key: "description", value: "" },
-        ],
+        metadata: {
+            name: "Example NFT",
+            description: "This is an example NFT created with CIP-68 minting interface.",
+            image: "https://via.placeholder.com/300.png?text=Example+NFT",
+        },
     });
 
     const updateMetadata = (index: number, field: string, value: string) => {
@@ -57,7 +57,7 @@ export default function MintNFTPage() {
 
     return (
         <motion.main className="relative pt-20" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-            <div className="min-h-screen bg-gradient-to-b from-zinc-950 via-zinc-900 to-black text-white">
+            <div className="min-h-screen ">
                 <div className="max-w-6xl mx-auto px-4 py-12 md:py-20">
                     <div className="text-center mb-10 md:mb-12">
                         <h1
@@ -100,16 +100,17 @@ export default function MintNFTPage() {
                         </div>
                     </div>
 
-                    <div className="bg-zinc-900/70 backdrop-blur-sm border border-zinc-800 rounded-2xl md:rounded-3xl p-6 md:p-10 shadow-2xl">
+                    <div className=" backdrop-blur-sm border rounded-2xl md:rounded-3xl p-6 md:p-10 shadow-2xl">
                         {step === 1 && (
                             <div className="flex flex-col">
-                                <div className="text-center mb-8">
+                                <div className="text-center mb-10">
                                     <h2 className="text-2xl md:text-3xl font-semibold mb-3">Step 1 – Asset Details</h2>
                                     <p className="text-zinc-400">Provide the basic information for your NFT asset</p>
                                 </div>
 
-                                <main className="flex items-start justify-between">
-                                    <div className="space-y-8 w-full animate-fade-in">
+                                <main className="grid md:grid-cols-2 gap-10 items-start">
+                                    {/* LEFT - FORM */}
+                                    <div className="space-y-8 animate-fade-in">
                                         <div className="space-y-6">
                                             <div>
                                                 <label className="block text-sm font-medium text-zinc-300 mb-2">Asset Name (on-chain)</label>
@@ -134,18 +135,19 @@ export default function MintNFTPage() {
                                             </div>
                                         </div>
 
-                                        <div className="flex justify-end pt-6">
+                                        <div className="flex justify-end pt-4">
                                             <button
                                                 onClick={next}
                                                 disabled={!formData.assetName.trim()}
-                                                className="px-8 py-4 bg-blue-600 hover:bg-blue-700 disabled:bg-zinc-800 disabled:text-zinc-500 disabled:cursor-not-allowed rounded-xl font-semibold flex items-center gap-3 transition"
+                                                className="px-8 py-4 w-full text-center bg-blue-600 hover:bg-blue-700 disabled:bg-zinc-800 disabled:text-zinc-500 disabled:cursor-not-allowed rounded-xl font-semibold flex items-center gap-3 transition"
                                             >
                                                 Continue <span aria-hidden>→</span>
                                             </button>
                                         </div>
                                     </div>
 
-                                    <div className="w-full p-6 bg-zinc-950 border border-zinc-800 rounded-2xl">
+                                    {/* RIGHT - GUIDE */}
+                                    <div className="p-7 bg-zinc-950 border border-zinc-800 rounded-2xl">
                                         <h3 className="text-lg font-semibold mb-3">Step Guide</h3>
                                         <p className="text-zinc-400 text-sm leading-relaxed">
                                             Enter the name of your NFT asset and choose how many tokens you want to mint. This information will be

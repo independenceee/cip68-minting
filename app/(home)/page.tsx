@@ -6,7 +6,7 @@ import Contact from "@/components/contact";
 import { routers } from "@/constants/routers";
 import { images } from "@/public/images";
 
-export default function Home() {
+export default function Page() {
     return (
         <main>
             <motion.section
