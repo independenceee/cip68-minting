@@ -207,7 +207,7 @@ export class MeshAdapter {
      * @returns {Promise<UTxO>}
      *          The last matching UTxO for the specified asset.
      */
-    protected getAddressUTXOAsset = async (address: string, unit: string) => {
+    protected getAddressUTXOAsset = async (address: string, unit: string): Promise<UTxO> => {
         const utxos = await this.fetcher.fetchAddressUTxOs(address, unit);
         return utxos[utxos.length - 1];
     };
@@ -222,7 +222,7 @@ export class MeshAdapter {
      * @returns {Promise<UTxO[]>}
      *          List of UTxOs with the specified asset.
      */
-    protected getAddressUTXOAssets = async (address: string, unit: string) => {
+    protected getAddressUTXOAssets = async (address: string, unit: string): Promise<UTxO[]> => {
         return await this.fetcher.fetchAddressUTxOs(address, unit);
     };
 
