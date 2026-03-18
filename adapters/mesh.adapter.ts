@@ -6,6 +6,8 @@ import {
     mConStr0,
     MeshTxBuilder,
     MeshWallet,
+    mPubKeyAddress,
+    PlutusData,
     PlutusScript,
     resolveScriptHash,
     scriptAddress,
@@ -104,8 +106,8 @@ export class MeshAdapter {
         this.spendCompileCode = this.readValidator(plutus as Plutus, title.spend);
         this.spendScriptCbor = applyParamsToScript(this.spendCompileCode, [
             this.platformFee,
-            mConStr0([deserializeAddress(this.issuerAddress).pubKeyHash, deserializeAddress(this.issuerAddress).stakeCredentialHash]),
-            mConStr0([deserializeAddress(this.platformAddress).pubKeyHash, deserializeAddress(this.platformAddress).stakeCredentialHash]),
+            mPubKeyAddress(deserializeAddress(this.issuerAddress).pubKeyHash, deserializeAddress(this.issuerAddress).stakeCredentialHash),
+            mPubKeyAddress(deserializeAddress(this.platformAddress).pubKeyHash, deserializeAddress(this.platformAddress).stakeCredentialHash),
         ]);
         this.spendScript = {
             code: this.spendScriptCbor,
@@ -123,10 +125,9 @@ export class MeshAdapter {
         this.mintCompileCode = this.readValidator(plutus as Plutus, title.mint);
         this.mintScriptCbor = applyParamsToScript(this.mintCompileCode, [
             this.platformFee,
-            deserializeAddress(this.issuerAddress).pubKeyHash,
-            deserializeAddress(this.platformAddress).pubKeyHash,
-            deserializeAddress(serializePlutusScript(this.spendScript, undefined, APP_NETWORK_ID, false).address).scriptHash,
-            deserializeAddress(this.platformAddress).stakeCredentialHash,
+            mPubKeyAddress(deserializeAddress(this.issuerAddress).pubKeyHash, deserializeAddress(this.issuerAddress).stakeCredentialHash),
+            mPubKeyAddress(deserializeAddress(this.platformAddress).pubKeyHash, deserializeAddress(this.platformAddress).stakeCredentialHash),
+            mPubKeyAddress(deserializeAddress(this.spendAddress).scriptHash, deserializeAddress(this.spendAddress).stakeCredentialHash),
         ]);
         this.mintScript = {
             code: this.mintScriptCbor,
@@ -249,5 +250,25 @@ export class MeshAdapter {
                 Number(amount[0].quantity) >= 5_000_000
             );
         })[0];
+    };
+
+    protected metadataToCip68 = (metadata: any): any => {
+        switch (typeof metadata) {
+            case "object":
+                if (metadata instanceof Array) {
+                    return metadata.map((item) => this.metadataToCip68(item));
+                }
+                const metadataMap = new Map();
+                const keys = Object.keys(metadata);
+                keys.forEach((key) => {
+                    metadataMap.set(key, this.metadataToCip68(metadata[key]));
+                });
+                return {
+                    alternative: BigInt(0),
+                    fields: [metadataMap, BigInt(1_000_000)],
+                };
+            default:
+                return metadata;
+        }
     };
 }

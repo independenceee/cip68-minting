@@ -57,9 +57,10 @@ describe("Open source dynamic assets (Token/NFT) generator (CIP68).", function (
         const meshTxBuilder: MeshTxBuilder = new MeshTxBuilder({
             meshWallet: meshWallet,
         });
+        await meshTxBuilder.initalize();
 
         const unsignedTx: string = await meshTxBuilder.burn({
-            assetName: "Aiken Course 2024",
+            assetName: "Aiken Course 2030",
             quantity: "-1",
         });
 
@@ -79,6 +80,7 @@ describe("Open source dynamic assets (Token/NFT) generator (CIP68).", function (
         const meshTxBuilder: MeshTxBuilder = new MeshTxBuilder({
             meshWallet: meshWallet,
         });
+        await meshTxBuilder.initalize();
 
         const unsignedTx: string = await meshTxBuilder.update({
             assetName: "Aiken Course 2024",

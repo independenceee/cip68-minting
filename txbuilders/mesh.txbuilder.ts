@@ -1,6 +1,6 @@
 import { getPkHash } from "@/libs/utils";
 import { MeshAdapter } from "../adapters/mesh.adapter";
-import { APP_NETWORK } from "../constants/enviroments/";
+import { APP_NETWORK } from "../constants/enviroments";
 import { deserializeAddress, mConStr0, mConStr1, stringToHex, metadataToCip68, CIP68_222, CIP68_100 } from "@meshsdk/core";
 
 export class MeshTxBuilder extends MeshAdapter {
@@ -26,21 +26,14 @@ export class MeshTxBuilder extends MeshAdapter {
     }): Promise<string> => {
         const { utxos, walletAddress, collateral } = await this.getWalletForTx();
         const utxo = await this.getAddressUTXOAsset(this.spendAddress, this.policyId + CIP68_100(stringToHex(assetName)));
-
         const unsignedTx = this.meshTxBuilder;
 
         if (utxo) {
-            const author = await getPkHash(utxo.output.plutusData as string);
-            if (author !== deserializeAddress(walletAddress).pubKeyHash) {
-                throw new Error(`${assetName} has been exist`);
-            }
-
             unsignedTx
                 .mintPlutusScriptV3()
                 .mint(quantity, this.policyId, CIP68_222(stringToHex(assetName)))
                 .mintingScript(this.mintScriptCbor)
                 .mintRedeemerValue(mConStr0([]))
-
                 .txOut(receiver ? receiver : walletAddress, [{ unit: this.policyId + CIP68_222(stringToHex(assetName)), quantity: quantity }]);
         } else {
             unsignedTx
@@ -54,7 +47,6 @@ export class MeshTxBuilder extends MeshAdapter {
                         quantity: quantity,
                     },
                 ])
-
                 .mintPlutusScriptV3()
                 .mint("1", this.policyId, CIP68_100(stringToHex(assetName)))
                 .mintingScript(this.mintScriptCbor)
@@ -79,7 +71,6 @@ export class MeshTxBuilder extends MeshAdapter {
             .requiredSignerHash(deserializeAddress(walletAddress).pubKeyHash)
             .txInCollateral(collateral.input.txHash, collateral.input.outputIndex)
             .setNetwork(APP_NETWORK);
-
         return await unsignedTx.complete();
     };
 
@@ -97,14 +88,10 @@ export class MeshTxBuilder extends MeshAdapter {
         const unsignedTx = this.meshTxBuilder;
         const utxoRef = await this.getAddressUTXOAsset(this.spendAddress, this.policyId + CIP68_100(stringToHex(assetName)));
 
+        console.log(utxoRef);
+
         if (!utxoRef) {
             throw new Error("Cannot find proposal from Treasury");
-        }
-
-        const author = await getPkHash(utxoRef.output.plutusData as string);
-
-        if (author != deserializeAddress(walletAddress).pubKeyHash) {
-            throw new Error(`${assetName} has been exist`);
         }
 
         const utxoUser = await this.getAddressUTXOAssets(walletAddress, this.policyId + CIP68_222(stringToHex(assetName)));
@@ -185,11 +172,6 @@ export class MeshTxBuilder extends MeshAdapter {
 
         if (!utxoRef) {
             throw new Error("No Reference Asset Exists");
-        }
-
-        const author = await getPkHash(utxoRef.output.plutusData as string);
-        if (author != deserializeAddress(walletAddress).pubKeyHash) {
-            throw new Error(`${assetName} has been exist`);
         }
 
         unsignedTx
