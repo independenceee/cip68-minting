@@ -11,7 +11,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { getAssets } from "@/actions/assets.action";
 import { useWallet } from "@/hooks/use-wallet";
-import { da } from "zod/v4/locales";
 import { toast } from "sonner";
 import Link from "next/link";
 import Image from "next/image";

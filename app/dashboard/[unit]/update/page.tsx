@@ -1,78 +1,244 @@
 "use client";
-import { motion, AnimatePresence } from "framer-motion";
-import Mint from "@/components/mint";
-import Title from "@/components/title";
-import { images } from "@/public/images";
-import { routers } from "@/constants/routers";
 
-export default function Page() {
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { MdArrowLeft, MdCheckCircle } from "react-icons/md";
+import { CircleLoader } from "react-spinners";
+
+type MetadataField = {
+    key: string;
+    value: string;
+};
+
+export default function UpdateMetadataPage() {
+    const router = useRouter();
+
+    // NFT mẫu (sẽ lấy từ params hoặc API sau)
+    const nft = {
+        name: "Solvel Dragon #001",
+        image: "https://via.placeholder.com/800x800.png/1a1a2e/00ffcc?text=Solvel+Dragon+%23001",
+        policyId: "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6",
+        assetName: "536f6c76656c447261676f6e303031",
+    };
+
+    const [step, setStep] = useState(1);
+    const [isUpdating, setIsUpdating] = useState(false);
+    const [txHash, setTxHash] = useState("");
+
+    const [metadata, setMetadata] = useState<MetadataField[]>([
+        { key: "name", value: "Solvel Dragon #001" },
+        { key: "description", value: "A legendary fire dragon from the Solvel universe." },
+        { key: "image", value: "ipfs://Qm...abc123" },
+        { key: "mediaType", value: "image/png" },
+        { key: "version", value: "CIP-68" },
+        { key: "background", value: "Cosmic Nebula" },
+    ]);
+
+    const updateField = (index: number, field: "key" | "value", newValue: string) => {
+        const newMetadata = [...metadata];
+        newMetadata[index] = { ...newMetadata[index], [field]: newValue };
+        setMetadata(newMetadata);
+    };
+
+    const addField = () => {
+        setMetadata([...metadata, { key: "", value: "" }]);
+    };
+
+    const removeField = (index: number) => {
+        if (metadata.length === 1) return;
+        setMetadata(metadata.filter((_, i) => i !== index));
+    };
+
+    const next = () => step < 4 && setStep(step + 1);
+    const prev = () => step > 1 && setStep(step - 1);
+
+    const handleUpdate = async () => {
+        setIsUpdating(true);
+
+        // Giả lập gọi transaction update metadata (CIP-68)
+        await new Promise((resolve) => setTimeout(resolve, 2500));
+
+        const fakeTxHash = "0x" + Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join("");
+        setTxHash(fakeTxHash);
+        setIsUpdating(false);
+        next();
+    };
+
+    const progress = (step / 4) * 100;
+
     return (
-        <motion.main className="relative pt-20" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-            <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-                <motion.div
-                    variants={{
-                        hidden: { opacity: 0, y: 20 },
-                        visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
-                    }}
-                >
-                    <Title
-                        title="CIP-68 Core Features"
-                        description="Focuses on datum-based metadata (reference NFT label 100 + 
-                         user token label 222/444), upgradability without reminting, smart-contract readability — not Hydra tipping."
-                    />
-                </motion.div>
+        <div className="min-h-screen bg-zinc-950 text-white pb-20">
+            <div className="max-w-4xl mx-auto px-4 md:px-6 pt-10">
+                {/* Header */}
+                <button onClick={() => router.back()} className="flex items-center gap-2 text-zinc-400 hover:text-white mb-8">
+                    <MdArrowLeft className="w-5 h-5" /> Quay lại chi tiết NFT
+                </button>
 
-                <AnimatePresence mode="wait">
-                    <motion.section
-                        key="data"
-                        className="grid gap-8 sm:grid-cols-1 md:grid-cols-2"
-                        variants={{
-                            hidden: { opacity: 0 },
-                            visible: { opacity: 1, transition: { duration: 0.4 } },
-                        }}
-                        initial="hidden"
-                        animate="visible"
-                        exit="exit"
-                    >
-                        {[
-                            {
-                                type: "mint_one",
-                                title: "Mint One – Single NFT",
-                                image: "https://i.pinimg.com/1200x/32/ae/e6/32aee6200a75cdf06c932f737b533b3a.jpg",
-                                routes: routers.mintOne,
-                                description:
-                                    "Mint just one unique NFT in a single transaction. Ideal for on-demand minting, high-rarity items, testing, or user-triggered mints. Transactions are small, easy to track, but fees add up quickly when minting many individually.",
-                            },
-                            {
-                                type: "mint_multiple",
-                                title: "Mint Multiple – Batch Minting",
-                                image: "https://i.pinimg.com/736x/99/68/0e/99680e56e17f5150040515565a1a9725.jpg",
-                                routes: routers.mintMultiple,
-                                description:
-                                    "Mint multiple different NFTs (usually under the same policy ID) in one transaction. Extremely cost-efficient (20–50 NFTs for ~0.3–0.7 ADA/tx). Perfect for launching full collections, generative art, PFP projects. Requires careful tx size management and metadata optimization.",
-                            },
-                        ].map((result, index: number) => (
-                            <motion.div
-                                key={index}
-                                className="rounded-xl border border-blue-100 bg-white shadow-lg dark:border-blue-900/30 dark:bg-slate-900/80"
-                                variants={{
-                                    hidden: { opacity: 0, y: 20 },
-                                    visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
-                                }}
-                                transition={{ delay: index * 0.1 }}
-                                whileHover={{ scale: 1.02, boxShadow: "0 10px 20px rgba(0, 0, 0, 0.15)" }}
-                            >
-                                <Mint
-                                    image={result.image || images.logo}
-                                    title={result.title || "Untitled Proposal"}
-                                    routes={result.routes || ""}
-                                    description={result.description || ""}
-                                />
-                            </motion.div>
+                <div className="text-center mb-12">
+                    <h1 className="text-4xl md:text-5xl font-bold tracking-tight">Update Metadata</h1>
+                    <p className="text-zinc-400 mt-3 text-lg">Cập nhật thông tin NFT theo chuẩn CIP-68</p>
+                    <p className="text-sm text-emerald-400 mt-1 font-mono">{nft.name}</p>
+                </div>
+
+                {/* Progress Bar */}
+                <div className="mb-12">
+                    <div className="flex justify-between text-sm mb-4 px-2">
+                        {["Xem trước", "Chỉnh sửa", "Xem lại", "Xác nhận"].map((label, i) => (
+                            <div key={i} className={`font-medium ${i + 1 <= step ? "text-white" : "text-zinc-500"}`}>
+                                {label}
+                            </div>
                         ))}
-                    </motion.section>
-                </AnimatePresence>
+                    </div>
+                    <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
+                        <motion.div
+                            className="h-full bg-gradient-to-r from-purple-500 to-pink-500"
+                            initial={{ width: 0 }}
+                            animate={{ width: `${progress}%` }}
+                        />
+                    </div>
+                </div>
+
+                <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-8 md:p-12">
+                    {/* Step 1: Preview */}
+                    {step === 1 && (
+                        <div className="space-y-10 text-center">
+                            <div className="mx-auto w-80 aspect-square rounded-2xl overflow-hidden border border-zinc-700">
+                                <img src={nft.image} alt={nft.name} width={400} height={400} className="object-cover" />
+                            </div>
+                            <div>
+                                <h2 className="text-3xl font-semibold">{nft.name}</h2>
+                                <p className="text-zinc-400 mt-2">Bạn đang cập nhật metadata cho NFT này</p>
+                            </div>
+                            <button onClick={next} className="px-12 py-5 bg-purple-600 hover:bg-purple-700 rounded-2xl font-semibold text-lg">
+                                Bắt đầu chỉnh sửa →
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Step 2: Edit Metadata */}
+                    {step === 2 && (
+                        <div className="space-y-8">
+                            <h2 className="text-3xl font-semibold text-center">Chỉnh sửa Metadata</h2>
+
+                            <div className="space-y-5">
+                                {metadata.map((field, index) => (
+                                    <div key={index} className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+                                        <input
+                                            type="text"
+                                            value={field.key}
+                                            onChange={(e) => updateField(index, "key", e.target.value)}
+                                            placeholder="Key (ví dụ: name, description...)"
+                                            className="md:col-span-5 bg-zinc-950 border border-zinc-700 rounded-2xl px-6 py-4 focus:border-purple-500 outline-none"
+                                        />
+                                        <input
+                                            type="text"
+                                            value={field.value}
+                                            onChange={(e) => updateField(index, "value", e.target.value)}
+                                            placeholder="Giá trị"
+                                            className="md:col-span-6 bg-zinc-950 border border-zinc-700 rounded-2xl px-6 py-4 focus:border-purple-500 outline-none"
+                                        />
+                                        <button onClick={() => removeField(index)} className="text-red-400 hover:text-red-500 text-2xl md:col-span-1">
+                                            ×
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <button onClick={addField} className="text-purple-400 hover:text-purple-300 flex items-center gap-2">
+                                + Thêm trường metadata mới
+                            </button>
+
+                            <div className="flex justify-between pt-8">
+                                <button onClick={prev} className="px-8 py-4 border border-zinc-700 hover:bg-zinc-800 rounded-2xl">
+                                    ← Quay lại
+                                </button>
+                                <button onClick={next} className="px-12 py-4 bg-purple-600 hover:bg-purple-700 rounded-2xl font-semibold">
+                                    Tiếp tục →
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Step 3: Review */}
+                    {step === 3 && (
+                        <div className="space-y-10">
+                            <h2 className="text-3xl font-semibold text-center">Xem lại thay đổi</h2>
+
+                            <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-8">
+                                <pre className="text-sm text-emerald-300 overflow-auto max-h-96 font-mono whitespace-pre-wrap">
+                                    {JSON.stringify(Object.fromEntries(metadata.map((m) => [m.key, m.value])), null, 2)}
+                                </pre>
+                            </div>
+
+                            <div className="flex justify-between">
+                                <button onClick={prev} className="px-8 py-4 border border-zinc-700 hover:bg-zinc-800 rounded-2xl">
+                                    ← Sửa lại
+                                </button>
+                                <button
+                                    onClick={handleUpdate}
+                                    disabled={isUpdating}
+                                    className="px-12 py-4 bg-emerald-600 hover:bg-emerald-700 disabled:bg-zinc-700 rounded-2xl font-semibold flex items-center gap-3"
+                                >
+                                    {isUpdating ? (
+                                        <>
+                                            <CircleLoader className="animate-spin" /> Đang cập nhật...
+                                        </>
+                                    ) : (
+                                        "Xác nhận cập nhật Metadata"
+                                    )}
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Step 4: Success */}
+                    {step === 4 && (
+                        <div className="text-center py-12 space-y-12">
+                            <div className="mx-auto w-24 h-24 rounded-full bg-emerald-900/50 flex items-center justify-center">
+                                <MdCheckCircle className="w-20 h-20 text-emerald-400" />
+                            </div>
+
+                            <div>
+                                <h2 className="text-4xl font-bold text-emerald-400">Cập nhật thành công!</h2>
+                                <p className="text-zinc-400 mt-4">Metadata của NFT đã được cập nhật trên blockchain.</p>
+                            </div>
+
+                            {txHash && (
+                                <div className="max-w-lg mx-auto bg-zinc-950 border border-emerald-900 rounded-2xl p-6">
+                                    <p className="text-emerald-400 text-sm mb-2">Transaction Hash</p>
+                                    <a
+                                        href={`https://preview.cardanoscan.io/transaction/${txHash}`}
+                                        target="_blank"
+                                        className="font-mono text-sm break-all text-emerald-300 hover:underline"
+                                    >
+                                        {txHash}
+                                    </a>
+                                </div>
+                            )}
+
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                <button
+                                    onClick={() => router.push(`/nft/${nft.assetName}`)}
+                                    className="px-10 py-5 bg-white text-black font-semibold rounded-2xl hover:bg-zinc-200"
+                                >
+                                    Quay về chi tiết NFT
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        setStep(1);
+                                        setTxHash("");
+                                    }}
+                                    className="px-10 py-5 border border-zinc-700 hover:bg-zinc-800 rounded-2xl font-semibold"
+                                >
+                                    Cập nhật NFT khác
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
-        </motion.main>
+        </div>
     );
 }
