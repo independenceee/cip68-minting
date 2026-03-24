@@ -11,7 +11,7 @@
     },
     "dependencies": {
         "@hookform/resolvers": "^5.2.2",
-        "@meshsdk/core": "1.8.14",
+        "@meshsdk/core": "^1.9.0-beta.101",
         "@sidan-lab/sidan-csl-rs-nodejs": "^0.9.21",
         "@tanstack/react-query": "^5.90.21",
         "@types/lodash": "^4.17.24",

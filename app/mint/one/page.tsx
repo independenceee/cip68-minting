@@ -1,8 +1,9 @@
-// app/mint/page.tsx
 "use client";
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 type FormData = {
     assetName: string;
@@ -11,6 +12,11 @@ type FormData = {
 };
 
 export default function Page() {
+    const { status: sessionStatus } = useSession();
+
+    if (sessionStatus === "unauthenticated") {
+        redirect("/login");
+    }
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState<FormData>({
         assetName: "",
