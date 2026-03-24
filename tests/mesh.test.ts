@@ -23,7 +23,7 @@ describe("Open source dynamic assets (Token/NFT) generator (CIP68).", function (
     jest.setTimeout(600000000);
 
     test("Mint", async function () {
-        // return;
+        return;
         const meshTxBuilder: MeshTxBuilder = new MeshTxBuilder({
             meshWallet: meshWallet,
         });
@@ -31,12 +31,13 @@ describe("Open source dynamic assets (Token/NFT) generator (CIP68).", function (
         await meshTxBuilder.initalize();
 
         const unsignedTx: string = await meshTxBuilder.mint({
-            assetName: "Aiken Course 2030",
+            assetName: "Aiken Course 2027",
             quantity: "1",
             metadata: {
-                name: "Aiken Course 2025",
-                image: "ipfs://image.png",
-                description: "This is a simple example of CIP-68",
+                name: "Aiken Course 2027",
+                description:
+                    "Welcome to the world of MDX, a revolutionary way to write technical documentation and blog posts. MDX seamlessly blends Markdown's simplicity with the power of React components.",
+                image: "https://i.pinimg.com/736x/ac/e6/e6/ace6e6bff6507fb3842beeccc6f40e31.jpg",
                 mediaType: "image/png",
             },
         });
@@ -100,5 +101,15 @@ describe("Open source dynamic assets (Token/NFT) generator (CIP68).", function (
                 resolve();
             });
         });
+    });
+
+    test("Assets", async function () {
+        return;
+        const meshTxBuilder: MeshTxBuilder = new MeshTxBuilder({
+            meshWallet: meshWallet,
+        });
+        await meshTxBuilder.initalize();
+        const assets = await meshTxBuilder.assets({ page: 1, limit: 6 });
+        console.dir(assets);
     });
 });

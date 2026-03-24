@@ -1,7 +1,10 @@
 import { getPkHash } from "@/libs/utils";
 import { MeshAdapter } from "../adapters/mesh.adapter";
 import { APP_NETWORK } from "../constants/enviroments";
-import { deserializeAddress, mConStr0, mConStr1, stringToHex, metadataToCip68, CIP68_222, CIP68_100 } from "@meshsdk/core";
+import { deserializeAddress, mConStr0, mConStr1, stringToHex, metadataToCip68, CIP68_222, CIP68_100, hexToString } from "@meshsdk/core";
+import { koiosFetcher } from "@/providers/cardano";
+import { AssetDetails, AssetType } from "@/types";
+import { convertToKeyValue } from "@/lib/utils";
 
 export class MeshTxBuilder extends MeshAdapter {
     /**
@@ -201,5 +204,38 @@ export class MeshTxBuilder extends MeshAdapter {
             .txInCollateral(collateral.input.txHash, collateral.input.outputIndex)
             .setNetwork(APP_NETWORK);
         return await unsignedTx.complete();
+    };
+
+    /**
+     * @method assets
+     * @description Get asset from smart contract
+     * @param page - number
+     * @param limit - number
+     * @returns
+     */
+    assets = async ({ page, limit }: { page: number; limit: number }) => {
+        const assets: AssetType[] = await koiosFetcher.fetchAssetsFromAddress(this.spendAddress);
+        const filterAssets = assets.filter((asset) => asset.policy_id === this.policyId);
+        const total = filterAssets.length;
+        const assetsSlice: AssetType[] = filterAssets.slice((page - 1) * limit, page * limit);
+        const asset_list = assetsSlice.map((asset) => {
+            return [asset.policy_id, asset.asset_name];
+        });
+        const data = await koiosFetcher.fetchAssetsInfo(asset_list);
+        const assetDetails: AssetDetails[] = data.map((asset: any) => {
+            return {
+                policy_id: asset.policy_id,
+                asset_name: asset.asset_name,
+                total_supply: asset.total_supply,
+                onchain_metadata: convertToKeyValue(asset.cip68_metadata?.["100"]?.fields[0].map),
+            };
+        });
+        return {
+            total_item: total,
+            data: assetDetails,
+            current_page: page,
+            total_asset: assets.length,
+            total_page: Math.ceil(total / limit),
+        };
     };
 }

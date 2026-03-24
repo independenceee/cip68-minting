@@ -17,6 +17,7 @@ export default function Page() {
     if (sessionStatus === "unauthenticated") {
         redirect("/login");
     }
+
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState<FormData>({
         assetName: "",
@@ -27,29 +28,6 @@ export default function Page() {
             image: "https://via.placeholder.com/300.png?text=Example+NFT",
         },
     });
-
-    const updateMetadata = (index: number, field: string, value: string) => {
-        const updated = [...formData.metadata];
-        updated[index] = { ...updated[index], [field]: value };
-        setFormData({ ...formData, metadata: updated });
-    };
-
-    const addMetadata = () => {
-        setFormData({
-            ...formData,
-            metadata: [...formData.metadata, { key: "", value: "" }],
-        });
-    };
-
-    const removeMetadata = (index: number) => {
-        const updated = formData.metadata.filter((_, i) => i !== index);
-        setFormData({ ...formData, metadata: updated });
-    };
-    const [txHash] = useState("0x" + "a".repeat(64));
-
-    const updateForm = (field: keyof FormData, value: any) => {
-        setFormData((prev) => ({ ...prev, [field]: value }));
-    };
 
     const next = () => {
         if (step < 5) setStep(step + 1);
