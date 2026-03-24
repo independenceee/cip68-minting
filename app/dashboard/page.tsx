@@ -1,11 +1,18 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
-import Mint from "@/components/mint";
 import Title from "@/components/title";
 import { images } from "@/public/images";
 import { routers } from "@/constants/routers";
-
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
+import Asset from "@/components/asset";
 export default function Page() {
+    const { status: sessionStatus } = useSession();
+
+    if (sessionStatus === "unauthenticated") {
+        redirect("/login");
+    }
+
     return (
         <motion.main className="relative pt-20" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
             <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
@@ -16,9 +23,8 @@ export default function Page() {
                     }}
                 >
                     <Title
-                        title="CIP-68 Core Features"
-                        description="Focuses on datum-based metadata (reference NFT label 100 + 
-                         user token label 222/444), upgradability without reminting, smart-contract readability — not Hydra tipping."
+                        title="Digital Asset Profile"
+                        description="Your unified hub for NFT ownership. Discover rich metadata, track assets, and interact with tokens built on modern standards like CIP-68."
                     />
                 </motion.div>
 
@@ -62,7 +68,7 @@ export default function Page() {
                                 transition={{ delay: index * 0.1 }}
                                 whileHover={{ scale: 1.02, boxShadow: "0 10px 20px rgba(0, 0, 0, 0.15)" }}
                             >
-                                <Mint
+                                <Asset
                                     image={result.image || images.logo}
                                     title={result.title || "Untitled Proposal"}
                                     routes={result.routes || ""}
