@@ -56,7 +56,7 @@ export default function Header() {
                                     animate={{ opacity: 1 }}
                                     transition={{ delay: 0.2, duration: 0.5 }}
                                 >
-                                    Multisig Treasury
+                                    CIP68
                                 </motion.h3>
                             </Link>
                         </motion.section>

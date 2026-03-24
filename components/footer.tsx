@@ -10,7 +10,6 @@ import { routers } from "@/constants/routers";
 export default function Footer() {
     const pathname = usePathname();
 
-    // Ẩn footer ở trang docs và login (giữ nguyên logic)
     if (pathname.startsWith(routers.documentation) || pathname.startsWith(routers.login)) {
         return null;
     }
@@ -26,7 +25,7 @@ export default function Footer() {
                         {/* Column 1: About / Stay Connected */}
                         <div className="relative">
                             <div className="absolute -top-2 left-0 h-1 w-10 bg-gradient-to-r from-blue-500 to-cyan-400 opacity-70"></div>
-                            <h3 className="mb-6 text-lg font-bold uppercase tracking-wider text-gray-900 dark:text-white">Multisig Treasury</h3>
+                            <h3 className="mb-6 text-lg font-bold uppercase tracking-wider text-gray-900 dark:text-white">CIP68</h3>
                             <p className="mb-6 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                                 Secure, transparent treasury management for DAOs and communities on Cardano. Powered by native multisig scripts.
                             </p>
@@ -191,7 +190,7 @@ export default function Footer() {
                             <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
                                 <ThemeToggle />
                                 <span className="text-gray-400/50">|</span>
-                                <span>© {new Date().getFullYear()} Multisig Treasury. All rights reserved.</span>
+                                <span>© {new Date().getFullYear()} CIP68. All rights reserved.</span>
                             </div>
                         </div>
                     </div>
