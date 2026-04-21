@@ -23,14 +23,14 @@ export default function Contact() {
                         <div className="mb-6 flex items-center justify-center gap-6">
                             <div className="h-1.5 w-16 bg-gradient-to-r from-blue-500 to-transparent rounded-full"></div>
                             <h2 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent tracking-tight">
-                                Get in Touch with Multisig Treasury
+                                Get in Touch with CIP68
                             </h2>
                             <div className="h-1.5 w-16 bg-gradient-to-r from-transparent to-cyan-500 rounded-full"></div>
                         </div>
 
                         <p className="max-w-3xl mx-auto text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed">
-                            Have questions about multisig treasury setup on Cardano? Want to report a bug, suggest a feature, discuss DAO governance,
-                            or explore collaboration opportunities?
+                            Have questions about CIP68 setup on Cardano? Want to report a bug, suggest a feature, discuss DAO governance, or explore
+                            collaboration opportunities?
                             <br className="hidden sm:block" />
                             <strong className="text-blue-600 dark:text-blue-400">
                                 We're here to help build a more secure and transparent ecosystem together.
@@ -133,7 +133,7 @@ export default function Contact() {
                                         </label>
                                         <textarea
                                             name="message"
-                                            placeholder="Tell us how we can help you with Multisig Treasury on Cardano..."
+                                            placeholder="Tell us how we can help you with CIP68 on Cardano..."
                                             rows={5}
                                             required
                                             className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"

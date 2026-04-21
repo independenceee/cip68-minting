@@ -229,8 +229,8 @@ const FormTip = function ({
                                 <AlertDialogHeader>
                                     <AlertDialogTitle>Confirm Deposit</AlertDialogTitle>
                                     <AlertDialogDescription>
-                                        Deposit will be sent to the multisig treasury address. Requires {threshold} approval(s) from signers before
-                                        funds are usable.
+                                        Deposit will be sent to the CIP68 address. Requires {threshold} approval(s) from signers before funds are
+                                        usable.
                                     </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>

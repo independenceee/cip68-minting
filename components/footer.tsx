@@ -178,7 +178,7 @@ export default function Footer() {
                                 <Image
                                     className="h-9 w-auto opacity-90 transition-opacity hover:opacity-100"
                                     src={images.logo}
-                                    alt="Multisig Treasury"
+                                    alt="CIP68"
                                     width={36}
                                     height={36}
                                 />

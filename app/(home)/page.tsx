@@ -257,8 +257,8 @@ export default function Page() {
                                 <h2 className="text-3xl font-bold text-gray-900 dark:text-white lg:text-4xl">Core Principles of CIP-68 Metadata</h2>
                             </div>
                             <p className="max-w-3xl text-lg text-gray-600 dark:text-gray-300">
-                                A multisig treasury on Cardano enforces collective decision-making, on-chain transparency, and cryptographic security
-                                for shared assets using native scripts or Plutus contracts.
+                                A CIP68 on Cardano enforces collective decision-making, on-chain transparency, and cryptographic security for shared
+                                assets using native scripts or Plutus contracts.
                             </p>
                         </motion.header>
 

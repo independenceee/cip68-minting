@@ -50,7 +50,7 @@ export default function SignIn() {
                             <section className="flex items-center">
                                 <Link href={routers.home} className="flex items-center gap-3">
                                     <Image className="h-12 w-auto animate-pulse" loading="lazy" src={images.logo} alt="Cardano2vn" />
-                                    <h3 className="text-2xl font-bold text-gray-950 dark:text-gray-300 font-stretch-50%">Multisig Treasury</h3>
+                                    <h3 className="text-2xl font-bold text-gray-950 dark:text-gray-300 font-stretch-50%">CIP68</h3>
                                 </Link>
                             </section>
                             <ul className="flex items-center justify-center gap-7">
@@ -121,7 +121,7 @@ export default function SignIn() {
                     <Link className="underline-offset-2 underline" href={"https://traceability.trustorstudio.com/"} target="_blake">
                         Help Center
                     </Link>
-                    <p className="mt-[16px] text-gray-400">Multisig Treasury Network Foundation Cardano2vn</p>
+                    <p className="mt-[16px] text-gray-400">CIP68 Network Foundation Cardano2vn</p>
                 </footer>
             </div>
         </div>
