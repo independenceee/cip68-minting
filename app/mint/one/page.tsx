@@ -18,7 +18,7 @@ type FormData = {
     metadata: MetadataField[];
 };
 
-export default function CIP68MintingPage() {
+export default function Page() {
     const { status: sessionStatus } = useSession();
 
     if (sessionStatus === "unauthenticated") {
@@ -39,8 +39,6 @@ export default function CIP68MintingPage() {
             { key: "mediaType", value: "image/png" },
         ],
     });
-
-    // ==================== HANDLERS ====================
     const updateForm = (field: keyof Omit<FormData, "metadata">, value: any) => {
         setFormData((prev) => ({ ...prev, [field]: value }));
     };
@@ -71,24 +69,20 @@ export default function CIP68MintingPage() {
     const next = () => step < 5 && setStep(step + 1);
     const prev = () => step > 1 && setStep(step - 1);
 
+    const progress = (step / 5) * 100;
+
     const handleMint = async () => {
         setIsMinting(true);
-        // Giả lập gọi API / kết nối ví
-        await new Promise((resolve) => setTimeout(resolve, 2200));
 
-        const fakeTxHash = "0x" + Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join("");
-        setTxHash(fakeTxHash);
+        setTxHash("");
         setIsMinting(false);
         next();
     };
-
-    const progress = (step / 5) * 100;
-
     return (
         <motion.main initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="relative pt-20 pb-20 min-h-screen  text-white">
             <div className="max-w-5xl mx-auto px-4 md:px-6">
                 {/* Header */}
-                <div className="text-center mb-12">
+                <div className="text-center my-12">
                     <h1 className="text-5xl md:text-7xl font-black tracking-tighter bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
                         CIP-68 Minting
                     </h1>
