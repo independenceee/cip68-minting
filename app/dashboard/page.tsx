@@ -26,17 +26,15 @@ export default function Page() {
     const [page, setPage] = useState(1);
     const { address } = useWallet();
 
-
     const { data, isLoading, error } = useQuery({
         queryKey: ["assets", page, address],
         queryFn: async () => await getAssets({ limit: 6, page: page, walletAddress: address as string }),
-        enabled: !!address
+        enabled: !!address,
     });
 
-    console.log(data)
-
-    const noItemsContent = useMemo(
-        () => (
+    if (error) {
+        toast.error(error instanceof Error ? error.message : "Failed to load tippers");
+        return (
             <motion.div
                 className="flex flex-col items-center justify-center py-16 text-center"
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -87,13 +85,7 @@ export default function Page() {
                     </Link>
                 </motion.div>
             </motion.div>
-        ),
-        [],
-    );
-
-    if (error) {
-        toast.error(error instanceof Error ? error.message : "Failed to load tippers");
-        return noItemsContent;
+        );
     }
 
     return (
@@ -138,7 +130,56 @@ export default function Page() {
                             ))}
                         </motion.section>
                     ) : !data?.data.length ? (
-                        noItemsContent
+                        <motion.div
+                            className="flex flex-col items-center justify-center py-16 text-center"
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.5, ease: "easeOut" }}
+                        >
+                            <motion.div
+                                className="mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900"
+                                animate={{ rotate: [0, 10, -10, 0] }}
+                                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                            >
+                                <Image src={images.logo} alt="Tipjar Logo" />
+                            </motion.div>
+                            <motion.h3
+                                className="mb-2 text-2xl font-semibold text-gray-900 dark:text-white"
+                                variants={{
+                                    hidden: { opacity: 0, y: 20 },
+                                    visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+                                }}
+                                transition={{ delay: 0.2 }}
+                            >
+                                No Assets Available
+                            </motion.h3>
+                            <motion.p
+                                className="mb-6 max-w-md text-lg text-gray-600 dark:text-gray-300"
+                                variants={{
+                                    hidden: { opacity: 0, y: 20 },
+                                    visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+                                }}
+                                transition={{ delay: 0.4 }}
+                            >
+                                It looks like there are no assets to display at the moment. Check back later or create your own CIP68!
+                            </motion.p>
+                            <motion.div
+                                variants={{
+                                    hidden: { opacity: 0, y: 20 },
+                                    visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+                                }}
+                                transition={{ delay: 0.6 }}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                <Link
+                                    href={routers.mint}
+                                    className="inline-flex items-center justify-center rounded-sm bg-blue-600 px-8 py-2 text-lg font-semibold text-white shadow-xl hover:bg-blue-700 dark:bg-white dark:text-blue-900 dark:hover:bg-gray-100"
+                                >
+                                    Mint Asset
+                                </Link>
+                            </motion.div>
+                        </motion.div>
                     ) : (
                         <motion.section
                             key="data"
