@@ -88,7 +88,6 @@ export default function NFTDetailPage() {
         <div className="min-h-screen bg-zinc-950 text-white py-20">
             <div className="max-w-7xl mx-auto px-4 md:px-6 pt-8">
                 <div className="grid lg:grid-cols-5 gap-12 lg:gap-16">
-                    {/* ==================== IMAGE ==================== */}
                     <div className="lg:col-span-3">
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}

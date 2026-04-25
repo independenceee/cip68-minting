@@ -26,10 +26,14 @@ export default function Page() {
     const [page, setPage] = useState(1);
     const { address } = useWallet();
 
+
     const { data, isLoading, error } = useQuery({
-        queryKey: ["assets", page],
+        queryKey: ["assets", page, address],
         queryFn: async () => await getAssets({ limit: 6, page: page, walletAddress: address as string }),
+        enabled: !!address
     });
+
+    console.log(data)
 
     const noItemsContent = useMemo(
         () => (
@@ -54,7 +58,7 @@ export default function Page() {
                     }}
                     transition={{ delay: 0.2 }}
                 >
-                    No Tippers Available
+                    No Assets Available
                 </motion.h3>
                 <motion.p
                     className="mb-6 max-w-md text-lg text-gray-600 dark:text-gray-300"
@@ -64,7 +68,7 @@ export default function Page() {
                     }}
                     transition={{ delay: 0.4 }}
                 >
-                    It looks like there are no tippers to display at the moment. Check back later or create your own Tipjar!
+                    It looks like there are no assets to display at the moment. Check back later or create your own CIP68!
                 </motion.p>
                 <motion.div
                     variants={{
