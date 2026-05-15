@@ -13,10 +13,11 @@ import Network from "@/components/network";
 import Wallet from "@/components/wallet";
 import { WalletType } from "@/types";
 import { networks } from "@/constants/networks";
+import { APP_NETWORK } from "@/constants/enviroments";
 export const dynamic = "force-dynamic";
 
 export default function SignIn() {
-    const [network, setNetwork] = useState<string>("preview");
+    const [network, setNetwork] = useState<string>(APP_NETWORK);
 
     useEffect(() => {
         const networkConnection = localStorage.getItem("network");
