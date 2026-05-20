@@ -44,12 +44,12 @@ export default function Account() {
         <Popover>
             <PopoverTrigger
                 className={
-                    "items-center gap-2 rounded-3xl border border-gray-300 bg-white pr-4 pl-1 py-1 text-sm font-medium text-gray-800 shadow-lg transition-all duration-200 hover:border-gray-400 hover:bg-gray-100 dark:border-white/30 dark:bg-gray-800/50 dark:text-white dark:hover:border-white/50 dark:hover:bg-gray-700/50 hidden xl:inline-flex"
+                    "items-center gap-2 rounded-3xl border border-slate-700 bg-slate-900 pr-4 pl-1 py-1 text-sm font-medium text-slate-100 shadow-lg transition-all duration-200 hover:border-slate-600 hover:bg-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:border-slate-600 dark:hover:bg-slate-800 hidden xl:inline-flex"
                 }
             >
                 <div className={"h-8 w-8"}>
                     <Image
-                        className={"h-full w-full rounded-full bg-gray-600 object-cover p-1 dark:bg-slate-700"}
+                        className={"h-full w-full rounded-full bg-slate-700 object-cover p-1 dark:bg-slate-700"}
                         src={wallet?.icon || ""}
                         width={32}
                         height={32}
@@ -57,16 +57,16 @@ export default function Account() {
                     />
                 </div>
                 <div className="">
-                    <h2 className="text-[13px] leading-4 text-gray-800 dark:text-white">
+                    <h2 className="text-[13px] leading-4 text-white dark:text-white">
                         {address?.slice(0, 12)}...{address?.slice(-4)}
                     </h2>
-                    <p className={"text-left text-[14px] leading-4 text-gray-700 dark:text-gray-300"}>
+                    <p className={"text-left text-[14px] leading-4 text-slate-300 dark:text-slate-400"}>
                         <CountUp start={0} end={Number((balance / DECIMAL_PLACE).toFixed(6))} decimals={6} /> ₳
                     </p>
                 </div>
             </PopoverTrigger>
             <PopoverContent
-                className={"mt-2 flex min-w-[315px] flex-col gap-4 rounded-xl p-5 bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100"}
+                className={"mt-2 flex min-w-[315px] flex-col gap-4 rounded-xl p-5 bg-slate-900 text-slate-100 dark:bg-slate-900 dark:text-slate-100"}
                 align="end"
             >
                 <div className="flex items-center gap-3">
@@ -80,16 +80,16 @@ export default function Account() {
                         />
                     </div>
                     <div>
-                        <h2 className="text-xl font-semibold text-gray-900 dark:text-white capitalize">{wallet?.name}</h2>
-                        <p className="text-sm text-gray-500 dark:text-gray-400 capitalize"> {APP_NETWORK}</p>
+                        <h2 className="text-xl font-semibold text-white dark:text-white capitalize">{wallet?.name}</h2>
+                        <p className="text-sm text-slate-400 dark:text-slate-400 capitalize"> {APP_NETWORK}</p>
                     </div>
                 </div>
-                <Separator className="my-1 bg-gray-300 dark:bg-slate-500" />
+                <Separator className="my-1 bg-slate-700 dark:bg-slate-700" />
                 <div className="space-y-2">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                            <p className="text-sm text-gray-500 dark:text-gray-400">Stake:</p>
-                            <span className="text-sm text-gray-900 dark:text-gray-100">{shortenString(stakeAddress || "", 11)}</span>
+                            <p className="text-sm text-slate-400 dark:text-slate-400">Stake:</p>
+                            <span className="text-sm text-slate-100 dark:text-slate-100">{shortenString(stakeAddress || "", 11)}</span>
                         </div>
                         <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-400 hover:text-gray-900 dark:hover:text-white">
                             <Copy className="h-4 w-4" content={stakeAddress || ""} />
@@ -97,8 +97,8 @@ export default function Account() {
                     </div>
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                            <p className="text-sm text-gray-500 dark:text-gray-400">Change:</p>
-                            <span className="text-sm text-gray-900 dark:text-gray-100">{shortenString(address || "", 10)}</span>
+                            <p className="text-sm text-slate-400 dark:text-slate-400">Change:</p>
+                            <span className="text-sm text-slate-100 dark:text-slate-100">{shortenString(address || "", 10)}</span>
                         </div>
                         <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-400 hover:text-gray-900 dark:hover:text-white">
                             <Copy className="h-4 w-4" content={stakeAddress || ""} />

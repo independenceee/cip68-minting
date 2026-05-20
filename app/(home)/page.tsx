@@ -11,7 +11,7 @@ export default function Page() {
         <main>
             <motion.section
                 id="Landing"
-                className="relative flex min-h-screen items-center overflow-hidden"
+                className="relative flex min-h-screen items-center overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950"
                 initial="hidden"
                 animate="visible"
                 variants={{

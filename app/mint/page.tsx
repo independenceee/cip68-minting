@@ -7,7 +7,12 @@ import { routers } from "@/constants/routers";
 
 export default function Page() {
     return (
-        <motion.main className="relative pt-20" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+        <motion.main
+            className="relative pt-20 min-h-screen bg-slate-950"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+        >
             <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
                 <motion.div
                     variants={{
@@ -54,13 +59,13 @@ export default function Page() {
                         ].map((result, index: number) => (
                             <motion.div
                                 key={index}
-                                className="rounded-xl border border-blue-100 bg-white shadow-lg dark:border-blue-900/30 dark:bg-slate-900/80"
+                                className="rounded-xl border border-slate-700 bg-slate-900 shadow-lg dark:border-slate-700 dark:bg-slate-900/95"
                                 variants={{
                                     hidden: { opacity: 0, y: 20 },
                                     visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
                                 }}
                                 transition={{ delay: index * 0.1 }}
-                                whileHover={{ scale: 1.02, boxShadow: "0 10px 20px rgba(0, 0, 0, 0.15)" }}
+                                whileHover={{ scale: 1.02, boxShadow: "0 10px 20px rgba(59, 130, 246, 0.2)" }}
                             >
                                 <Mint
                                     image={result.image || images.logo}

@@ -42,14 +42,14 @@ export default function Page() {
                 transition={{ duration: 0.5, ease: "easeOut" }}
             >
                 <motion.div
-                    className="mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900"
+                    className="mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-slate-800 to-slate-700 dark:from-slate-800 dark:to-slate-700"
                     animate={{ rotate: [0, 10, -10, 0] }}
                     transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                 >
                     <Image src={images.logo} alt="Tipjar Logo" />
                 </motion.div>
                 <motion.h3
-                    className="mb-2 text-2xl font-semibold text-gray-900 dark:text-white"
+                    className="mb-2 text-2xl font-semibold text-white dark:text-white"
                     variants={{
                         hidden: { opacity: 0, y: 20 },
                         visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
@@ -59,7 +59,7 @@ export default function Page() {
                     No Assets Available
                 </motion.h3>
                 <motion.p
-                    className="mb-6 max-w-md text-lg text-gray-600 dark:text-gray-300"
+                    className="mb-6 max-w-md text-lg text-slate-300 dark:text-slate-300"
                     variants={{
                         hidden: { opacity: 0, y: 20 },
                         visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
@@ -79,7 +79,7 @@ export default function Page() {
                 >
                     <Link
                         href={routers.mint}
-                        className="inline-flex items-center justify-center rounded-sm bg-blue-600 px-8 py-2 text-lg font-semibold text-white shadow-xl hover:bg-blue-700 dark:bg-white dark:text-blue-900 dark:hover:bg-gray-100"
+                        className="inline-flex items-center justify-center rounded-sm bg-blue-600 px-8 py-2 text-lg font-semibold text-white shadow-xl hover:bg-blue-700 dark:bg-blue-600 dark:text-white dark:hover:bg-blue-700"
                     >
                         Mint Asset
                     </Link>
@@ -89,7 +89,12 @@ export default function Page() {
     }
 
     return (
-        <motion.main className="relative pt-20" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+        <motion.main
+            className="relative pt-20 min-h-screen bg-slate-950"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+        >
             <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
                 <motion.div
                     variants={{
@@ -137,14 +142,14 @@ export default function Page() {
                             transition={{ duration: 0.5, ease: "easeOut" }}
                         >
                             <motion.div
-                                className="mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900"
+                                className="mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-slate-800 to-slate-700 dark:from-slate-800 dark:to-slate-700"
                                 animate={{ rotate: [0, 10, -10, 0] }}
                                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                             >
                                 <Image src={images.logo} alt="Tipjar Logo" />
                             </motion.div>
                             <motion.h3
-                                className="mb-2 text-2xl font-semibold text-gray-900 dark:text-white"
+                                className="mb-2 text-2xl font-semibold text-white dark:text-white"
                                 variants={{
                                     hidden: { opacity: 0, y: 20 },
                                     visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
