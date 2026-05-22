@@ -3,6 +3,7 @@ import {
     deserializeAddress,
     IEvaluator,
     IFetcher,
+    mConStr0,
     MeshTxBuilder,
     MeshWallet,
     mPubKeyAddress,
@@ -250,23 +251,9 @@ export class MeshAdapter {
         })[0];
     };
 
-    protected metadataToCip68 = (metadata: any): any => {
-        switch (typeof metadata) {
-            case "object":
-                if (metadata instanceof Array) {
-                    return metadata.map((item) => this.metadataToCip68(item));
-                }
-                const metadataMap = new Map();
-                const keys = Object.keys(metadata);
-                keys.forEach((key) => {
-                    metadataMap.set(key, this.metadataToCip68(metadata[key]));
-                });
-                return {
-                    alternative: BigInt(0),
-                    fields: [metadataMap, BigInt(1_000_000)],
-                };
-            default:
-                return metadata;
-        }
+    protected metadataToCip68 = (metadata: Record<string, string>): any => {
+        const results = Object.entries(metadata).map(([key, value]) => mConStr0([key, value]));
+
+        return mConStr0([results, 1]);
     };
 }

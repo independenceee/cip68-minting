@@ -23,7 +23,7 @@ describe("Open source dynamic assets (Token/NFT) generator (CIP68).", function (
     jest.setTimeout(600000000);
 
     test("Mint", async function () {
-        return;
+        // return;
         const meshTxBuilder: MeshTxBuilder = new MeshTxBuilder({
             meshWallet: meshWallet,
         });
@@ -31,14 +31,16 @@ describe("Open source dynamic assets (Token/NFT) generator (CIP68).", function (
         await meshTxBuilder.initalize();
 
         const unsignedTx: string = await meshTxBuilder.mint({
-            assetName: "Aiken Course 2027",
+            assetName: "Aiken Course 2030",
             quantity: "1",
             metadata: {
-                name: "Aiken Course 2027",
-                description:
-                    "Welcome to the world of MDX, a revolutionary way to write technical documentation and blog posts. MDX seamlessly blends Markdown's simplicity with the power of React components.",
-                image: "https://i.pinimg.com/736x/ac/e6/e6/ace6e6bff6507fb3842beeccc6f40e31.jpg",
+                name: "Aiken Pioneer Token #001",
+                image: "ipfs://QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6uco",
                 mediaType: "image/png",
+                description: "Chung chi hoan thanh khoa hoc Aiken Developer 2026",
+                project: "Aiken Course 2026",
+                releaseDate: "2026-05-22",
+                author: "Blaze/Lucid Developer",
             },
         });
 
@@ -50,7 +52,7 @@ describe("Open source dynamic assets (Token/NFT) generator (CIP68).", function (
                 resolve();
             });
         });
-    });
+    }, 600000000);
 
     test("Burn", async function () {
         return;
@@ -84,12 +86,15 @@ describe("Open source dynamic assets (Token/NFT) generator (CIP68).", function (
         await meshTxBuilder.initalize();
 
         const unsignedTx: string = await meshTxBuilder.update({
-            assetName: "Aiken Course 2024",
+            assetName: "Aiken Course 2030",
             metadata: {
-                name: "Aiken Course 2024",
-                image: "ipfs://image.png",
-                description: "This is a simple example of CIP-68",
+                name: "Aiken Pioneer Token #001",
+                image: "ipfs://QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6uco",
                 mediaType: "image/png",
+                description: "Chung chi hoan thanh khoa hoc Aiken Developer 2026",
+                project: "Aiken Course 2026",
+                releaseDate: "2026-05-22",
+                author: "Blaze/Lucid Developer",
             },
         });
 

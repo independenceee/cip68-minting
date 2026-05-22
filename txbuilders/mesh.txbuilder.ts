@@ -1,7 +1,17 @@
 import { getPkHash } from "@/libs/utils";
 import { MeshAdapter } from "../adapters/mesh.adapter";
 import { APP_NETWORK } from "../constants/enviroments";
-import { deserializeAddress, mConStr0, mConStr1, stringToHex, metadataToCip68, CIP68_222, CIP68_100, hexToString } from "@meshsdk/core";
+import {
+    deserializeAddress,
+    mConStr0,
+    mConStr1,
+    stringToHex,
+    metadataToCip68,
+    CIP68_222,
+    CIP68_100,
+    hexToString,
+    metadataObjToMap,
+} from "@meshsdk/core";
 import { koiosFetcher } from "@/providers/cardano";
 import { AssetDetails, AssetType } from "@/types";
 import { convertToKeyValue } from "@/lib/utils";
@@ -60,7 +70,7 @@ export class MeshTxBuilder extends MeshAdapter {
                         quantity: "1",
                     },
                 ])
-                .txOutInlineDatumValue(metadataToCip68(metadata));
+                .txOutInlineDatumValue(this.metadataToCip68(metadata));
         }
         unsignedTx
             .txOut(this.platformAddress, [
@@ -189,7 +199,7 @@ export class MeshTxBuilder extends MeshAdapter {
                     quantity: "1",
                 },
             ])
-            .txOutInlineDatumValue(metadataToCip68(metadata));
+            .txOutInlineDatumValue(this.metadataToCip68(metadata));
 
         unsignedTx
             .txOut(this.platformAddress, [

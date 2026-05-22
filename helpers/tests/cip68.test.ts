@@ -24,7 +24,7 @@ describe("Open source dynamic assets (Token/NFT) generator (CIP68).", function (
     jest.setTimeout(600000000);
 
     test("Mint", async function () {
-        // return;
+        return;
         const cip68TxBuilder: Cip68TxBuilder = new Cip68TxBuilder({
             meshWallet: meshWallet,
         });
