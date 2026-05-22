@@ -23,7 +23,7 @@ describe("Open source dynamic assets (Token/NFT) generator (CIP68).", function (
     jest.setTimeout(600000000);
 
     test("Mint", async function () {
-        // return;
+        return;
         const meshTxBuilder: MeshTxBuilder = new MeshTxBuilder({
             meshWallet: meshWallet,
         });
@@ -78,7 +78,7 @@ describe("Open source dynamic assets (Token/NFT) generator (CIP68).", function (
     });
 
     test("Update", async function () {
-        return;
+        // return;
 
         const meshTxBuilder: MeshTxBuilder = new MeshTxBuilder({
             meshWallet: meshWallet,
@@ -92,8 +92,8 @@ describe("Open source dynamic assets (Token/NFT) generator (CIP68).", function (
                 image: "ipfs://QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6uco",
                 mediaType: "image/png",
                 description: "Chung chi hoan thanh khoa hoc Aiken Developer 2026",
-                project: "Aiken Course 2026",
-                releaseDate: "2026-05-22",
+                project: "Aiken Course 2030",
+                releaseDate: "2026-05-23",
                 author: "Blaze/Lucid Developer",
             },
         });
@@ -106,7 +106,7 @@ describe("Open source dynamic assets (Token/NFT) generator (CIP68).", function (
                 resolve();
             });
         });
-    });
+    }, 600000000);
 
     test("Assets", async function () {
         return;
