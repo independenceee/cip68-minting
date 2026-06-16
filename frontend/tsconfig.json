@@ -1,6 +1,5 @@
 {
     "compilerOptions": {
-        "baseUrl": "./",
         "target": "ES2017",
         "lib": ["dom", "dom.iterable", "esnext"],
         "allowJs": true,
@@ -14,16 +13,17 @@
         "isolatedModules": true,
         "jsx": "react-jsx",
         "incremental": true,
+        "types": ["jest", "node"],
         "plugins": [
             {
                 "name": "next"
             }
         ],
         "paths": {
-            "@/*": ["./*"],
-            "fumadocs-mdx:collections/*": ["frontend/.source/*"]
+            "@/*": ["./src/*"],
+            "@/public/images*": ["./public/images"]
         }
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".next/dev/types/**/*.ts", "**/*.mts", "source.config.ts"],
+    "include": ["next-env.d.ts", "source.config.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".next/dev/types/**/*.ts", "**/*.mts"],
     "exclude": ["node_modules"]
 }
