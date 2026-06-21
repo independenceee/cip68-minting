@@ -51,7 +51,7 @@ export default function Page() {
                                 <h1 className="mb-10 text-5xl font-bold lg:text-8xl">
                                     <span className="block tracking-tight text-gray-900 dark:text-white">Dynamic NFT</span>
                                     <span className="block bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300 bg-clip-text tracking-tight text-gray-900 dark:text-transparent drop-shadow-lg">
-                                        CIP-68 Metadata
+                                        CIP-68
                                     </span>
                                     <span className="mt-4 block text-2xl font-normal text-gray-600 dark:text-gray-300 lg:text-4xl">
                                         Built on Cardano Blockchain
