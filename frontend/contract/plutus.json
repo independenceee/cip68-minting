@@ -6,7 +6,7 @@
     "plutusVersion": "v3",
     "compiler": {
       "name": "Aiken",
-      "version": "v1.1.21+42babe5"
+      "version": "v1.1.15+f03633e"
     },
     "license": "Apache-2.0"
   },
@@ -304,7 +304,7 @@
     "Int": {
       "dataType": "integer"
     },
-    "Option<cardano/address/StakeCredential>": {
+    "Option$cardano/address/StakeCredential": {
       "title": "Option",
       "anyOf": [
         {
@@ -327,7 +327,7 @@
         }
       ]
     },
-    "Pairs<Data,Data>": {
+    "Pairs$Data_Data": {
       "title": "Pairs<Data, Data>",
       "dataType": "map",
       "keys": {
@@ -360,7 +360,7 @@
             },
             {
               "title": "stake_credential",
-              "$ref": "#/definitions/Option<cardano~1address~1StakeCredential>"
+              "$ref": "#/definitions/Option$cardano~1address~1StakeCredential"
             }
           ]
         }
@@ -498,7 +498,7 @@
           "fields": [
             {
               "title": "metadata",
-              "$ref": "#/definitions/Pairs<Data,Data>"
+              "$ref": "#/definitions/Pairs$Data_Data"
             },
             {
               "title": "version",
