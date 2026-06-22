@@ -256,4 +256,36 @@ export class MeshTxBuilder extends MeshAdapter {
             total_page: Math.ceil(total / limit),
         };
     };
+
+    asset = async ({ policyId, assetName }: { policyId: string; assetName: string }) => {
+        const data = await koiosFetcher.fetchAssetsInfo([[policyId, assetName]]);
+        const assetDetails: AssetDetails[] = data.map((asset: any) => {
+            const metadata: Record<string, string> = {};
+
+            if (!asset.cip68_metadata?.["100"]?.fields[0]?.list || !Array.isArray(asset.cip68_metadata?.["100"]?.fields[0].list)) {
+                return metadata;
+            }
+
+            asset.cip68_metadata?.["100"]?.fields[0].list.forEach((item: any) => {
+                if (item.fields && Array.isArray(item.fields) && item.fields.length >= 2) {
+                    const keyHex = item.fields[0]?.bytes;
+                    const valueHex = item.fields[1]?.bytes;
+
+                    if (keyHex && valueHex) {
+                        const key = hexToString(keyHex);
+                        const value = hexToString(valueHex);
+                        metadata[key] = value;
+                    }
+                }
+            });
+
+            return {
+                policy_id: asset.policy_id,
+                asset_name: asset.asset_name,
+                total_supply: asset.total_supply,
+                onchain_metadata: metadata,
+            };
+        });
+        return assetDetails;
+    };
 }

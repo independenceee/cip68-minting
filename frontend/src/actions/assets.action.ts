@@ -30,3 +30,28 @@ export async function getAssets({ page = 1, limit = 6, walletAddress }: { page?:
         throw Error(String(error));
     }
 }
+
+export async function getAsset({ walletAddress, policyId, assetName }: { walletAddress: string, policyId: string, assetName: string }) {
+    try {
+        if (isNil(walletAddress)) {
+            throw new Error("walletAddress has been required.");
+        }
+        const meshWallet = new MeshWallet({
+            networkId: APP_NETWORK_ID,
+            fetcher: blockfrostProvider,
+            submitter: blockfrostProvider,
+            key: {
+                type: "address",
+                address: walletAddress,
+            },
+        });
+        const meshTxBuilder = new MeshTxBuilder({
+            meshWallet: meshWallet,
+        });
+        await meshTxBuilder.initalize();
+
+        return meshTxBuilder.asset({ policyId, assetName });
+    } catch (error) {
+        throw Error(String(error));
+    }
+}

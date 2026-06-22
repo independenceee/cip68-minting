@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { MdArrowLeft, MdCheckCircle } from "react-icons/md";
 import { CircleLoader } from "react-spinners";
+import { useWallet } from "@/hooks/use-wallet";
+import { update } from "@/actions/cip68.action";
 
 type MetadataField = {
     key: string;
@@ -13,9 +15,9 @@ type MetadataField = {
 };
 
 export default function UpdateMetadataPage() {
+    const { address, signTx, submitTx } = useWallet();
     const router = useRouter();
 
-    // NFT mẫu (sẽ lấy từ params hoặc API sau)
     const nft = {
         name: "Solvel Dragon #001",
         image: "https://via.placeholder.com/800x800.png/1a1a2e/00ffcc?text=Solvel+Dragon+%23001",
@@ -56,12 +58,20 @@ export default function UpdateMetadataPage() {
 
     const handleUpdate = async () => {
         setIsUpdating(true);
-
-        // Giả lập gọi transaction update metadata (CIP-68)
-        await new Promise((resolve) => setTimeout(resolve, 2500));
-
-        const fakeTxHash = "0x" + Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join("");
-        setTxHash(fakeTxHash);
+        const unsignedTx = await update({
+            address: address as string,
+            metadata: metadata.reduce(
+                (acc, item) => {
+                    acc[item.key] = item.value;
+                    return acc;
+                },
+                {} as Record<string, string>,
+            ),
+            assetName: "",
+        });
+        const signedTx = await signTx(unsignedTx);
+        const txHash = await submitTx(signedTx);
+        setTxHash(txHash);
         setIsUpdating(false);
         next();
     };

@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
+import Link from "next/link";
+import { burn } from "@/actions/cip68.action";
+import { useWallet } from "@/hooks/use-wallet";
+import  { AnimatePresence, motion } from "framer-motion";
 import { IoIosClock, IoIosShare, IoMdHeart, IoMdLink } from "react-icons/io";
-import { MdCopyAll } from "react-icons/md";
+import { MdCopyAll, MdClose } from "react-icons/md";
 
 type NFTDetail = {
     policyId: string;
@@ -16,8 +18,7 @@ type NFTDetail = {
     quantity: number;
     mintedAt: string;
     owner: string;
-    metadata: Record<string, any>;
-    traits: Array<{ trait_type: string; value: string; rarity?: number }>;
+    metadata: Array<{ key: string; value: string }>;
 };
 
 type Transaction = {
@@ -29,7 +30,12 @@ type Transaction = {
 };
 
 export default function NFTDetailPage() {
-    const router = useRouter();
+    const pathname = usePathname();
+    const { address, submitTx, signTx } = useWallet();
+
+    const [showBurnModal, setShowBurnModal] = useState(false);
+    const [burnQuantity, setBurnQuantity] = useState<string>("1");
+    const [isBurning, setIsBurning] = useState(false);
 
     const [nft] = useState<NFTDetail>({
         policyId: "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6",
@@ -40,27 +46,11 @@ export default function NFTDetailPage() {
         quantity: 1,
         mintedAt: "2025-03-20",
         owner: "addr1qx...9k2m3n4p5q6r7s8t9u0v",
-        metadata: {
-            name: "Solvel Dragon #001",
-            description: "A legendary fire dragon...",
-            image: "ipfs://Qm...abc123",
-            mediaType: "image/png",
-            version: "CIP-68",
-        },
-        traits: [
-            { trait_type: "Background", value: "Cosmic Nebula", rarity: 12.5 },
-            { trait_type: "Body", value: "Obsidian Scales", rarity: 8.3 },
-            { trait_type: "Eyes", value: "Golden Flame", rarity: 3.7 },
-            { trait_type: "Horns", value: "Crystal Crown", rarity: 15.2 },
-            { trait_type: "Wings", value: "Inferno Wings", rarity: 6.9 },
-            { trait_type: "Rarity", value: "Legendary", rarity: 1.2 },
-        ],
+        metadata: [{ key: "Background", value: "Cosmic Nebula" }],
     });
 
-    const [liked, setLiked] = useState(false);
     const [copiedField, setCopiedField] = useState<string | null>(null);
 
-    // Dữ liệu mẫu lịch sử giao dịch
     const transactions: Transaction[] = [
         {
             type: "Mint",
@@ -84,6 +74,14 @@ export default function NFTDetailPage() {
         setTimeout(() => setCopiedField(null), 1800);
     };
 
+    const handleBurn = async function () {
+        try {
+            const unsignTx = await burn({ address: address as string, assetName: "", quantity: "-1" });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <div className="min-h-screen bg-zinc-950 text-white py-20">
             <div className="max-w-7xl mx-auto px-4 md:px-6 pt-8">
@@ -98,14 +96,6 @@ export default function NFTDetailPage() {
 
                             {/* Floating Buttons */}
                             <div className="absolute top-6 right-6 flex flex-col gap-3">
-                                <button
-                                    onClick={() => setLiked(!liked)}
-                                    className={`p-4 rounded-2xl backdrop-blur-md border border-zinc-700 transition-all ${
-                                        liked ? "bg-red-500/20 text-red-500" : "bg-zinc-900/80 hover:bg-zinc-800"
-                                    }`}
-                                >
-                                    <IoMdHeart className={`w-6 h-6 ${liked ? "fill-current" : ""}`} />
-                                </button>
                                 <button className="p-4 rounded-2xl backdrop-blur-md border border-zinc-700 bg-zinc-900/80 hover:bg-zinc-800 transition">
                                     <IoIosShare className="w-6 h-6" />
                                 </button>
@@ -162,39 +152,105 @@ export default function NFTDetailPage() {
 
                         {/* Action Buttons */}
                         <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                            <button className="flex-1 py-5 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 rounded-2xl font-semibold text-lg transition">
+                            <Link
+                                href={window.location + "/update"}
+                                className="flex-1 py-5 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 rounded-2xl font-semibold text-lg transition text-center"
+                            >
                                 Update Metadata
-                            </button>
-                            <button className="flex-1 py-5 bg-red-600/90 hover:bg-red-700 rounded-2xl font-semibold text-lg transition">
+                            </Link>
+
+                            <button
+                                onClick={() => setShowBurnModal(true)}
+                                className="flex-1 py-5 bg-red-600/90 hover:bg-red-700 rounded-2xl font-semibold text-lg transition"
+                            >
                                 Burn NFT
                             </button>
                         </div>
+
+                        {/* ==================== BURN MODAL ==================== */}
+                        <AnimatePresence>
+                            {showBurnModal && (
+                                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md">
+                                    <motion.div
+                                        initial={{ opacity: 0, scale: 0.95 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.95 }}
+                                        className="bg-zinc-900 border border-zinc-700 rounded-3xl w-full max-w-md mx-4 p-8"
+                                    >
+                                        <div className="flex justify-between items-center mb-6">
+                                            <h2 className="text-2xl font-bold text-red-400">Burn NFT</h2>
+                                            <button onClick={() => setShowBurnModal(false)} className="text-zinc-400 hover:text-white">
+                                                <MdClose size={24} />
+                                            </button>
+                                        </div>
+
+                                        <div className="space-y-6">
+                                            <div>
+                                                <p className="text-sm text-zinc-400 mb-2">
+                                                    NFT: <span className="text-white font-medium">{nft.name}</span>
+                                                </p>
+                                                <p className="text-sm text-zinc-500">
+                                                    Số lượng hiện có: <span className="text-emerald-400">{nft.quantity}</span>
+                                                </p>
+                                            </div>
+
+                                            <div>
+                                                <label className="block text-sm text-zinc-400 mb-2">Số lượng muốn burn</label>
+                                                <input
+                                                    type="number"
+                                                    min="1"
+                                                    max={nft.quantity}
+                                                    value={burnQuantity}
+                                                    onChange={(e) => setBurnQuantity(e.target.value)}
+                                                    className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 text-xl focus:outline-none focus:border-red-500 transition"
+                                                />
+                                                <p className="text-xs text-zinc-500 mt-2">Tối đa: {nft.quantity}</p>
+                                            </div>
+
+                                            <div className="bg-red-950/50 border border-red-900/50 rounded-2xl p-4 text-sm text-red-300">
+                                                ⚠️ Hành động này không thể hoàn tác. NFT sau khi burn sẽ bị xóa vĩnh viễn khỏi blockchain.
+                                            </div>
+
+                                            <div className="flex gap-4 pt-4">
+                                                <button
+                                                    onClick={() => setShowBurnModal(false)}
+                                                    className="flex-1 py-4 bg-zinc-800 hover:bg-zinc-700 rounded-2xl font-semibold transition"
+                                                    disabled={isBurning}
+                                                >
+                                                    Hủy
+                                                </button>
+                                                <button
+                                                    onClick={handleBurn}
+                                                    disabled={isBurning || !burnQuantity || parseInt(burnQuantity) <= 0}
+                                                    className="flex-1 py-4 bg-red-600 hover:bg-red-700 disabled:bg-red-800 disabled:cursor-not-allowed rounded-2xl font-semibold transition flex items-center justify-center gap-2"
+                                                >
+                                                    {isBurning ? <>Đang burn...</> : <>Xác nhận Burn</>}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                </div>
+                            )}
+                        </AnimatePresence>
                     </div>
                 </div>
 
-                {/* ==================== TRAITS ==================== */}
                 <div className="mt-16">
                     <h3 className="text-2xl font-semibold mb-6">Thuộc tính (Traits)</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {nft.traits.map((trait, index) => (
+                        {nft.metadata.map(({ key, value }, index) => (
                             <motion.div
                                 key={index}
                                 whileHover={{ y: -4 }}
                                 className="bg-zinc-900 border border-zinc-800 hover:border-purple-500/50 rounded-3xl p-7 transition-all duration-300"
                             >
-                                <p className="text-sm text-zinc-500">{trait.trait_type}</p>
-                                <p className="text-2xl font-semibold mt-2">{trait.value}</p>
-                                {trait.rarity && (
-                                    <p className="mt-4 text-xs inline-block bg-emerald-900/70 px-4 py-1 rounded-full text-emerald-400">
-                                        Rarity: {trait.rarity}%
-                                    </p>
-                                )}
+                                <p className="text-sm text-zinc-500">{key}</p>
+                                <p className="text-2xl font-semibold mt-2">{value}</p>
                             </motion.div>
                         ))}
                     </div>
                 </div>
 
-                {/* ==================== TRANSACTION HISTORY ==================== */}
                 <div className="mt-16">
                     <div className="flex items-center gap-3 mb-6">
                         <IoIosClock className="w-6 h-6" />
