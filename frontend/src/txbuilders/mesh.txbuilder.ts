@@ -286,6 +286,6 @@ export class MeshTxBuilder extends MeshAdapter {
                 onchain_metadata: metadata,
             };
         });
-        return assetDetails;
+        return assetDetails[0];
     };
 }
