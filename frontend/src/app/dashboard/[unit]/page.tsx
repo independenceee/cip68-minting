@@ -20,7 +20,7 @@ type Transaction = {
     txHash: string;
 };
 
-export default function NFTDetailPage() {
+export default function Page() {
     const { unit } = useParams();
     const { address, submitTx, signTx } = useWallet();
 

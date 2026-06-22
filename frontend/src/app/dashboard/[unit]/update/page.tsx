@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
+import { useParams, useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 import { MdArrowLeft, MdCheckCircle } from "react-icons/md";
 import { CircleLoader } from "react-spinners";
 import { useWallet } from "@/hooks/use-wallet";
 import { update } from "@/actions/cip68.action";
+import { getAsset } from "@/actions/assets.action";
+import { hexToString } from "@meshsdk/core";
 
 type MetadataField = {
     key: string;
@@ -16,27 +18,26 @@ type MetadataField = {
 
 export default function UpdateMetadataPage() {
     const { address, signTx, submitTx } = useWallet();
+    const { unit } = useParams();
     const router = useRouter();
 
-    const nft = {
-        name: "Solvel Dragon #001",
-        image: "https://via.placeholder.com/800x800.png/1a1a2e/00ffcc?text=Solvel+Dragon+%23001",
-        policyId: "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6",
-        assetName: "536f6c76656c447261676f6e303031",
-    };
+    const { data, isLoading, error } = useQuery({
+        queryKey: ["assets", address],
+        queryFn: async () =>
+            await getAsset({ policyId: String(unit).slice(0, 56), assetName: String(unit).slice(56), walletAddress: address as string }),
+        enabled: !!address,
+    });
 
     const [step, setStep] = useState(1);
     const [isUpdating, setIsUpdating] = useState(false);
     const [txHash, setTxHash] = useState("");
 
-    const [metadata, setMetadata] = useState<MetadataField[]>([
-        { key: "name", value: "Solvel Dragon #001" },
-        { key: "description", value: "A legendary fire dragon from the Solvel universe." },
-        { key: "image", value: "ipfs://Qm...abc123" },
-        { key: "mediaType", value: "image/png" },
-        { key: "version", value: "CIP-68" },
-        { key: "background", value: "Cosmic Nebula" },
-    ]);
+    const [metadata, setMetadata] = useState<MetadataField[]>(
+        Object.entries((data?.onchain_metadata as Record<string, string>) || {}).map(([key, value]) => ({
+            key,
+            value,
+        })),
+    );
 
     const updateField = (index: number, field: "key" | "value", newValue: string) => {
         const newMetadata = [...metadata];
@@ -67,7 +68,7 @@ export default function UpdateMetadataPage() {
                 },
                 {} as Record<string, string>,
             ),
-            assetName: "",
+            assetName: hexToString(String(data?.asset_name).slice(8)),
         });
         const signedTx = await signTx(unsignedTx);
         const txHash = await submitTx(signedTx);
@@ -89,7 +90,7 @@ export default function UpdateMetadataPage() {
                 <div className="text-center mb-12">
                     <h1 className="text-4xl md:text-5xl font-bold tracking-tight">Update Metadata</h1>
                     <p className="text-zinc-400 mt-3 text-lg">Cập nhật thông tin NFT theo chuẩn CIP-68</p>
-                    <p className="text-sm text-emerald-400 mt-1 font-mono">{nft.name}</p>
+                    <p className="text-sm text-emerald-400 mt-1 font-mono">{data?.onchain_metadata.name}</p>
                 </div>
 
                 {/* Progress Bar */}
@@ -115,10 +116,16 @@ export default function UpdateMetadataPage() {
                     {step === 1 && (
                         <div className="space-y-10 text-center">
                             <div className="mx-auto w-80 aspect-square rounded-2xl overflow-hidden border border-zinc-700">
-                                <img src={nft.image} alt={nft.name} width={400} height={400} className="object-cover" />
+                                <img
+                                    src={data?.onchain_metadata?.image}
+                                    alt={data?.onchain_metadata?.name}
+                                    width={400}
+                                    height={400}
+                                    className="object-cover"
+                                />
                             </div>
                             <div>
-                                <h2 className="text-3xl font-semibold">{nft.name}</h2>
+                                <h2 className="text-3xl font-semibold">{data?.onchain_metadata?.name}</h2>
                                 <p className="text-zinc-400 mt-2">Bạn đang cập nhật metadata cho NFT này</p>
                             </div>
                             <button onClick={next} className="px-12 py-5 bg-purple-600 hover:bg-purple-700 rounded-2xl font-semibold text-lg">
@@ -230,7 +237,7 @@ export default function UpdateMetadataPage() {
 
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                 <button
-                                    onClick={() => router.push(`/nft/${nft.assetName}`)}
+                                    onClick={() => router.push(`/nft/${data?.onchain_metadata?.assetName}`)}
                                     className="px-10 py-5 bg-white text-black font-semibold rounded-2xl hover:bg-zinc-200"
                                 >
                                     Quay về chi tiết NFT

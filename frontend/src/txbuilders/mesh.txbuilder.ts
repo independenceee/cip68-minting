@@ -90,8 +90,6 @@ export class MeshTxBuilder extends MeshAdapter {
         const unsignedTx = this.meshTxBuilder;
         const utxoRef = await this.getAddressUTXOAsset(this.spendAddress, this.policyId + CIP68_100(stringToHex(assetName)));
 
-        console.log(utxoRef);
-
         if (!utxoRef) {
             throw new Error("Cannot find proposal from Treasury");
         }
