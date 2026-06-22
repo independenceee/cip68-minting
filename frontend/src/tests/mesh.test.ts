@@ -23,7 +23,7 @@ describe("Open source dynamic assets (Token/NFT) generator (CIP68).", function (
     jest.setTimeout(600000000);
 
     test("Mint", async function () {
-        // return;
+        return;
         const meshTxBuilder: MeshTxBuilder = new MeshTxBuilder({
             meshWallet: meshWallet,
         });
@@ -78,7 +78,7 @@ describe("Open source dynamic assets (Token/NFT) generator (CIP68).", function (
     });
 
     test("Update", async function () {
-        // return;
+        return;
 
         const meshTxBuilder: MeshTxBuilder = new MeshTxBuilder({
             meshWallet: meshWallet,
