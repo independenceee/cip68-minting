@@ -23,7 +23,7 @@ describe("Open source dynamic assets (Token/NFT) generator (CIP68).", function (
     jest.setTimeout(600000000);
 
     test("Mint", async function () {
-        return;
+        // return;
         const meshTxBuilder: MeshTxBuilder = new MeshTxBuilder({
             meshWallet: meshWallet,
         });
@@ -48,7 +48,7 @@ describe("Open source dynamic assets (Token/NFT) generator (CIP68).", function (
         const txHash = await meshWallet.submitTx(signedTx);
         await new Promise<void>(function (resolve) {
             blockfrostProvider.onTxConfirmed(txHash, () => {
-                console.log("https://preview.cexplorer.io/tx/" + txHash);
+                console.log("https://preprod.cexplorer.io/tx/" + txHash);
                 resolve();
             });
         });
@@ -71,7 +71,7 @@ describe("Open source dynamic assets (Token/NFT) generator (CIP68).", function (
         const txHash = await meshWallet.submitTx(signedTx);
         await new Promise<void>(function (resolve) {
             blockfrostProvider.onTxConfirmed(txHash, () => {
-                console.log("https://preview.cexplorer.io/tx/" + txHash);
+                console.log("https://preprod.cexplorer.io/tx/" + txHash);
                 resolve();
             });
         });
@@ -102,7 +102,7 @@ describe("Open source dynamic assets (Token/NFT) generator (CIP68).", function (
         const txHash = await meshWallet.submitTx(signedTx);
         await new Promise<void>(function (resolve) {
             blockfrostProvider.onTxConfirmed(txHash, () => {
-                console.log("https://preview.cexplorer.io/tx/" + txHash);
+                console.log("https://preprod.cexplorer.io/tx/" + txHash);
                 resolve();
             });
         });
