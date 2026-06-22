@@ -1,9 +1,9 @@
 "use server";
 
-import { APP_NETWORK_ID, APP_WALLET_ADDRESS } from "@/constants/enviroments";
-import { blockfrostFetcher, blockfrostProvider } from "@/providers/cardano";
+import { APP_NETWORK_ID } from "@/constants/enviroments";
+import { blockfrostProvider } from "@/providers/cardano";
 import { MeshTxBuilder } from "@/txbuilders/mesh.txbuilder";
-import { MeshWallet, stringToHex } from "@meshsdk/core";
+import { MeshWallet } from "@meshsdk/core";
 import { isNil } from "lodash";
 
 export async function getAssets({ page = 1, limit = 6, walletAddress }: { page?: number; limit?: number; walletAddress: string }) {

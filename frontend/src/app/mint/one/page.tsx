@@ -6,6 +6,8 @@ import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import Loading from "@/components/loading";
 import { MdCheck } from "react-icons/md";
+import { mint } from "@/actions/cip68.action";
+import { useWallet } from "@/hooks/use-wallet";
 
 type MetadataField = {
     key: string;
@@ -20,6 +22,7 @@ type FormData = {
 
 export default function Page() {
     const { status: sessionStatus } = useSession();
+    const { address, signTx, submitTx } = useWallet();
 
     if (sessionStatus === "unauthenticated") {
         redirect("/login");
@@ -73,8 +76,23 @@ export default function Page() {
 
     const handleMint = async () => {
         setIsMinting(true);
+        const unsignedTx = await mint({
+            address: address as string,
+            assetName: formData.assetName,
+            metadata: formData.metadata.reduce(
+                (acc, item) => {
+                    acc[item.key] = item.value;
+                    return acc;
+                },
+                {} as Record<string, string>,
+            ),
+            quantity: String(formData.quantity),
+        });
+        const signedTx = await signTx(unsignedTx);
 
-        setTxHash("");
+        const txHash = await submitTx(signedTx);
+
+        setTxHash(txHash);
         setIsMinting(false);
         next();
     };
