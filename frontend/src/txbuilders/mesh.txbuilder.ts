@@ -1,13 +1,6 @@
 import { MeshAdapter } from "../adapters/mesh.adapter";
 import { APP_NETWORK } from "../constants/enviroments";
-import {
-    deserializeAddress,
-    mConStr0,
-    mConStr1,
-    stringToHex,
-    CIP68_222,
-    CIP68_100,
-} from "@meshsdk/core";
+import { deserializeAddress, mConStr0, mConStr1, stringToHex, CIP68_222, CIP68_100, hexToString } from "@meshsdk/core";
 import { koiosFetcher } from "@/providers/cardano";
 import { AssetDetails, AssetType } from "@/types";
 import { convertToKeyValue } from "@/lib/utils";
@@ -229,11 +222,30 @@ export class MeshTxBuilder extends MeshAdapter {
         });
         const data = await koiosFetcher.fetchAssetsInfo(asset_list);
         const assetDetails: AssetDetails[] = data.map((asset: any) => {
+            const metadata: Record<string, string> = {};
+
+            if (!asset.cip68_metadata?.["100"]?.fields[0]?.list || !Array.isArray(asset.cip68_metadata?.["100"]?.fields[0].list)) {
+                return metadata;
+            }
+
+            asset.cip68_metadata?.["100"]?.fields[0].list.forEach((item: any) => {
+                if (item.fields && Array.isArray(item.fields) && item.fields.length >= 2) {
+                    const keyHex = item.fields[0]?.bytes;
+                    const valueHex = item.fields[1]?.bytes;
+
+                    if (keyHex && valueHex) {
+                        const key = hexToString(keyHex);
+                        const value = hexToString(valueHex);
+                        metadata[key] = value;
+                    }
+                }
+            });
+
             return {
                 policy_id: asset.policy_id,
                 asset_name: asset.asset_name,
                 total_supply: asset.total_supply,
-                onchain_metadata: convertToKeyValue(asset.cip68_metadata?.["100"]?.fields[0].map),
+                onchain_metadata: metadata,
             };
         });
         return {

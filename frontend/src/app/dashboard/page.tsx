@@ -32,6 +32,8 @@ export default function Page() {
         enabled: !!address,
     });
 
+    console.log(data)
+
     if (error) {
         toast.error(error instanceof Error ? error.message : "Failed to load tippers");
         return (
