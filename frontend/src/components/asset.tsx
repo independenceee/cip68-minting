@@ -1,3 +1,4 @@
+import { images } from "@/public/images*";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -24,7 +25,7 @@ export default function Asset({
                         <img
                             alt={title}
                             className="object-cover transition-transform duration-500 group-hover:scale-105"
-                            src={imageSrc}
+                            src={imageSrc || images.nami}
                             onError={() => setHasError(true)}
                         />
                     ) : (

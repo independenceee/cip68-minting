@@ -130,8 +130,8 @@ export default function Page() {
                             </div>
 
                             <div className="rounded-[1.3rem] border border-slate-200/80 bg-white/80 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/80">
-                                <p className="mb-1 text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Minted</p>
-                                <p className="font-medium">{Date.now().toLocaleString()}</p>
+                                <p className="mb-1 text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Amount</p>
+                                <p className="font-medium">{data?.quantity || 1}</p>
                             </div>
                         </div>
 
@@ -251,7 +251,7 @@ export default function Page() {
                                 className="rounded-[1.4rem] border border-slate-200/80 bg-white/80 p-7 shadow-sm transition-all duration-300 dark:border-slate-800 dark:bg-slate-900/80"
                             >
                                 <p className="text-sm text-slate-500 dark:text-slate-400">{key}</p>
-                                <p className="mt-2 text-2xl font-semibold">{value}</p>
+                                <p className="mt-2 text-2xl font-semibold break-words">{value}</p>
                             </motion.div>
                         ))}
                     </div>
