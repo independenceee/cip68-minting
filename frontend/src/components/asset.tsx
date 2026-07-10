@@ -19,7 +19,7 @@ export default function Asset({
     return (
         <div className="group relative overflow-hidden rounded-[1.5rem] border border-slate-200/80 bg-white/90 p-4 shadow-[0_18px_60px_-25px_rgba(15,23,42,0.35)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_70px_-20px_rgba(37,99,235,0.35)] dark:border-slate-800 dark:bg-slate-900/80">
             <Link className="block" href={routes} aria-label={`Read more about ${title}`}>
-                <div className="relative mb-4 aspect-[16/10] overflow-hidden rounded-[1.2rem]">
+                <div className="relative mb-4 aspect-16/10 overflow-hidden rounded-[1.2rem]">
                     {!hasError ? (
                         <img
                             alt={title}
@@ -32,7 +32,7 @@ export default function Asset({
                             Image not available
                         </div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-t from-slate-950/40 to-transparent" />
                 </div>
 
                 <div>

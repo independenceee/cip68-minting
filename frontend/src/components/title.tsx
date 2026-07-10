@@ -11,7 +11,7 @@ export default function Title({ title, description, isCreater = false }: { title
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.4 }}
                 >
-                    <span className="h-1.5 w-12 rounded-full bg-gradient-to-r from-blue-500 to-violet-500" />
+                    <span className="h-1.5 w-12 rounded-full bg-linear-to-r from-blue-500 to-violet-500" />
                     <span className="text-sm font-medium uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">CIP68 Workspace</span>
                 </motion.div>
                 <motion.h1
