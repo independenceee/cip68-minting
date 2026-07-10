@@ -5,7 +5,6 @@ import { isNil } from "lodash";
 import { useWallet } from "@/hooks/use-wallet";
 import Account from "@/components/account";
 import { ClipLoader } from "react-spinners";
-
 import { routers } from "@/constants/routers";
 import Link from "next/link";
 
@@ -20,7 +19,7 @@ const Wallet = () => {
                 <section className="hidden xl:block">
                     <Link
                         href={routers.login}
-                        className="inline-flex items-center gap-2 rounded-sm border border-white/30 bg-gray-800/50 px-4 py-2 text-sm font-medium text-white shadow-lg transition-all duration-200 hover:border-white/50 hover:bg-gray-700/50"
+                        className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/90 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-all duration-200 hover:border-slate-300 hover:bg-white dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:bg-slate-800"
                     >
                         <span>Connect Wallet</span>
                         <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

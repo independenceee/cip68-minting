@@ -32,8 +32,6 @@ export default function Page() {
         enabled: !!address,
     });
 
-    console.log(data)
-
     if (error) {
         toast.error(error instanceof Error ? error.message : "Failed to load tippers");
         return (
@@ -92,7 +90,7 @@ export default function Page() {
 
     return (
         <motion.main
-            className="relative pt-20 min-h-screen bg-slate-950"
+            className="relative min-h-screen bg-transparent pt-20"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}

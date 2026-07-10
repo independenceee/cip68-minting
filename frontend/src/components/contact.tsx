@@ -6,10 +6,7 @@ import { Mail, MessageSquare, Send, Users } from "lucide-react";
 
 export default function Contact() {
     return (
-        <section
-            id="contact"
-            className="relative flex min-h-screen items-center overflow-hidden bg-gradient-to-b from-white via-blue-50/30 to-purple-50/30 dark:from-gray-950 dark:via-slate-900/50 dark:to-slate-950/30"
-        >
+        <section id="contact" className="relative flex min-h-screen items-center overflow-hidden bg-transparent">
             <div className="mx-auto max-w-5xl px-6 py-20 lg:px-8">
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}
@@ -20,20 +17,20 @@ export default function Contact() {
                 >
                     {/* Header */}
                     <div className="text-center mb-12">
-                        <div className="mb-6 flex items-center justify-center gap-6">
-                            <div className="h-1.5 w-16 bg-gradient-to-r from-blue-500 to-transparent rounded-full"></div>
-                            <h2 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent tracking-tight">
+                        <div className="mb-6 flex items-center justify-center gap-4">
+                            <div className="h-1.5 w-12 rounded-full bg-linear-to-r from-blue-500 to-violet-500"></div>
+                            <h2 className="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-4xl lg:text-5xl">
                                 Get in Touch with CIP68
                             </h2>
-                            <div className="h-1.5 w-16 bg-gradient-to-r from-transparent to-cyan-500 rounded-full"></div>
+                            <div className="h-1.5 w-12 rounded-full bg-linear-to-r from-violet-500 to-cyan-500"></div>
                         </div>
 
-                        <p className="max-w-3xl mx-auto text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed">
-                            Have questions about CIP68 setup on Cardano? Want to report a bug, suggest a feature, discuss DAO governance, or explore
-                            collaboration opportunities?
+                        <p className="mx-auto max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-300 md:text-xl">
+                            Have questions about CIP68 setup on Cardano? Want to report a bug, suggest a feature, or explore collaboration
+                            opportunities?
                             <br className="hidden sm:block" />
                             <strong className="text-blue-600 dark:text-blue-400">
-                                We're here to help build a more secure and transparent ecosystem together.
+                                We are here to help build a more secure and transparent ecosystem together.
                             </strong>
                         </p>
                     </div>
@@ -71,7 +68,7 @@ export default function Contact() {
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ delay: idx * 0.1 }}
-                                className="group flex flex-col items-center text-center p-6 bg-white/60 dark:bg-gray-800/40 backdrop-blur-sm rounded-2xl border border-gray-200/50 dark:border-gray-700/50 hover:border-blue-400/50 dark:hover:border-blue-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10"
+                                className="group flex flex-col items-center text-center rounded-[1.3rem] border border-slate-200/80 bg-white/80 p-6 shadow-[0_18px_60px_-25px_rgba(15,23,42,0.35)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-blue-400/50 dark:border-slate-800 dark:bg-slate-900/70 dark:hover:border-blue-500/50"
                             >
                                 <item.icon className="w-10 h-10 text-blue-600 dark:text-blue-400 mb-4 group-hover:scale-110 transition-transform" />
                                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{item.title}</h3>
@@ -86,7 +83,7 @@ export default function Contact() {
                         initial={{ opacity: 0, scale: 0.98 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.7, delay: 0.3 }}
-                        className="bg-white dark:bg-gray-800/70 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-200/50 dark:border-gray-700/50 overflow-hidden max-w-4xl mx-auto"
+                        className="mx-auto max-w-4xl overflow-hidden rounded-[1.6rem] border border-slate-200/80 bg-white/85 shadow-[0_20px_80px_-30px_rgba(15,23,42,0.35)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/75"
                     >
                         <div className="p-8 lg:p-10">
                             <form className="space-y-6">
@@ -136,14 +133,14 @@ export default function Contact() {
                                             placeholder="Tell us how we can help you with CIP68 on Cardano..."
                                             rows={5}
                                             required
-                                            className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+                                            className="w-full resize-none rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder-slate-500"
                                         />
                                     </div>
                                 </div>
 
                                 <button
                                     type="submit"
-                                    className="w-full md:w-auto mx-auto flex items-center justify-center gap-3 px-10 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="mx-auto flex w-full items-center justify-center gap-3 rounded-full bg-slate-900 px-10 py-4 font-semibold text-white shadow-lg shadow-slate-900/15 transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200 md:w-auto"
                                 >
                                     <Send className="w-5 h-5" />
                                     Send Your Message

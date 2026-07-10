@@ -78,15 +78,15 @@ export default function Wallet({ wallet, session }: Props) {
             <AlertDialogTrigger asChild>
                 <main
                     className={cn(
-                        "flex items-center justify-between w-[332px] py-2 px-[35px] rounded-md text-[18px] relative select-none cursor-pointer border transition-colors",
-                        "bg-white text-gray-800 border-gray-300 hover:bg-gray-100 dark:bg-slate-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-slate-800",
+                        "flex items-center justify-between rounded-2xl border px-4 py-3 text-sm font-medium transition-all",
+                        "bg-white text-slate-700 shadow-sm hover:bg-slate-100 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800",
                         {
-                            "opacity-50 cursor-not-allowed": !isDownload,
+                            "cursor-not-allowed opacity-50": !isDownload,
                         },
                     )}
                 >
                     <span>{wallet?.name}</span>
-                    <Image src={wallet?.image} className="w-[30px] h-[30px]" alt={""} />
+                    <Image src={wallet?.image} className="h-8 w-8 rounded-full" alt={wallet?.name || "wallet"} />
                 </main>
             </AlertDialogTrigger>
             <AlertDialogContent>

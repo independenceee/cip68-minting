@@ -80,176 +80,200 @@ export default function UpdateMetadataPage() {
     const progress = (step / 4) * 100;
 
     return (
-        <div className="min-h-screen bg-zinc-950 text-white pb-20">
-            <div className="max-w-4xl mx-auto px-4 md:px-6 pt-10">
-                {/* Header */}
-                <button onClick={() => router.back()} className="flex items-center gap-2 text-zinc-400 hover:text-white mb-8">
-                    <MdArrowLeft className="w-5 h-5" /> Quay lại chi tiết NFT
+        <div className="min-h-screen bg-transparent pb-20 pt-10 text-slate-900 dark:text-white">
+            <div className="mx-auto max-w-4xl px-4 md:px-6">
+                <button
+                    onClick={() => router.back()}
+                    className="mb-8 flex items-center gap-2 text-slate-500 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                >
+                    <MdArrowLeft className="h-5 w-5" /> Back to NFT details
                 </button>
 
-                <div className="text-center mb-12">
-                    <h1 className="text-4xl md:text-5xl font-bold tracking-tight">Update Metadata</h1>
-                    <p className="text-zinc-400 mt-3 text-lg">Cập nhật thông tin NFT theo chuẩn CIP-68</p>
-                    <p className="text-sm text-emerald-400 mt-1 font-mono">{data?.onchain_metadata.name}</p>
+                <div className="mb-12 text-center">
+                    <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-sm font-medium text-slate-600 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-300">
+                        <span className="h-2.5 w-2.5 rounded-full bg-violet-500" />
+                        Update Metadata
+                    </div>
+                    <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">Edit your NFT metadata with confidence</h1>
+                    <p className="mt-3 text-lg leading-8 text-slate-600 dark:text-slate-400">
+                        Update the on-chain information for this NFT using the same polished workflow as the rest of the app.
+                    </p>
+                    <p className="mt-2 font-mono text-sm text-emerald-600 dark:text-emerald-400">{data?.onchain_metadata.name}</p>
                 </div>
 
-                {/* Progress Bar */}
-                <div className="mb-12">
-                    <div className="flex justify-between text-sm mb-4 px-2">
-                        {["Xem trước", "Chỉnh sửa", "Xem lại", "Xác nhận"].map((label, i) => (
-                            <div key={i} className={`font-medium ${i + 1 <= step ? "text-white" : "text-zinc-500"}`}>
+                <div className="mb-12 rounded-[1.5rem] border border-slate-200/80 bg-white/80 p-6 shadow-[0_20px_80px_-30px_rgba(15,23,42,0.35)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/80">
+                    <div className="mb-4 flex justify-between px-2 text-sm font-medium">
+                        {["Preview", "Edit", "Review", "Confirm"].map((label, i) => (
+                            <div
+                                key={i}
+                                className={`font-medium ${i + 1 <= step ? "text-slate-900 dark:text-white" : "text-slate-500 dark:text-slate-500"}`}
+                            >
                                 {label}
                             </div>
                         ))}
                     </div>
-                    <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
+                    <div className="h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
                         <motion.div
-                            className="h-full bg-gradient-to-r from-purple-500 to-pink-500"
+                            className="h-full bg-linear-to-r from-violet-500 to-fuchsia-500"
                             initial={{ width: 0 }}
                             animate={{ width: `${progress}%` }}
                         />
                     </div>
                 </div>
 
-                <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-8 md:p-12">
-                    {/* Step 1: Preview */}
+                <div className="rounded-[2rem] border border-slate-200/80 bg-white/80 p-8 shadow-[0_20px_80px_-30px_rgba(15,23,42,0.35)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/80 md:p-12">
                     {step === 1 && (
                         <div className="space-y-10 text-center">
-                            <div className="mx-auto w-80 aspect-square rounded-2xl overflow-hidden border border-zinc-700">
+                            <div className="mx-auto aspect-square w-80 overflow-hidden rounded-[1.5rem] border border-slate-200/80 bg-slate-100 shadow-sm dark:border-slate-800 dark:bg-slate-950">
                                 <img
                                     src={data?.onchain_metadata?.image}
                                     alt={data?.onchain_metadata?.name}
                                     width={400}
                                     height={400}
-                                    className="object-cover"
+                                    className="h-full w-full object-cover"
                                 />
                             </div>
                             <div>
                                 <h2 className="text-3xl font-semibold">{data?.onchain_metadata?.name}</h2>
-                                <p className="text-zinc-400 mt-2">Bạn đang cập nhật metadata cho NFT này</p>
+                                <p className="mt-2 text-slate-500 dark:text-slate-400">You are updating the metadata for this NFT.</p>
                             </div>
-                            <button onClick={next} className="px-12 py-5 bg-purple-600 hover:bg-purple-700 rounded-2xl font-semibold text-lg">
-                                Bắt đầu chỉnh sửa →
+                            <button
+                                onClick={next}
+                                className="rounded-2xl bg-violet-600 px-12 py-5 text-lg font-semibold text-white transition hover:bg-violet-700"
+                            >
+                                Start editing →
                             </button>
                         </div>
                     )}
 
-                    {/* Step 2: Edit Metadata */}
                     {step === 2 && (
                         <div className="space-y-8">
-                            <h2 className="text-3xl font-semibold text-center">Chỉnh sửa Metadata</h2>
+                            <h2 className="text-center text-3xl font-semibold">Edit Metadata</h2>
 
                             <div className="space-y-5">
                                 {metadata.map((field, index) => (
-                                    <div key={index} className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+                                    <div key={index} className="grid items-center gap-4 md:grid-cols-12">
                                         <input
                                             type="text"
                                             value={field.key}
                                             onChange={(e) => updateField(index, "key", e.target.value)}
-                                            placeholder="Key (ví dụ: name, description...)"
-                                            className="md:col-span-5 bg-zinc-950 border border-zinc-700 rounded-2xl px-6 py-4 focus:border-purple-500 outline-none"
+                                            placeholder="Key (for example: name, description...)"
+                                            className="rounded-2xl border border-slate-200 bg-white/90 px-6 py-4 text-slate-900 transition focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white md:col-span-5"
                                         />
                                         <input
                                             type="text"
                                             value={field.value}
                                             onChange={(e) => updateField(index, "value", e.target.value)}
-                                            placeholder="Giá trị"
-                                            className="md:col-span-6 bg-zinc-950 border border-zinc-700 rounded-2xl px-6 py-4 focus:border-purple-500 outline-none"
+                                            placeholder="Value"
+                                            className="rounded-2xl border border-slate-200 bg-white/90 px-6 py-4 text-slate-900 transition focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white md:col-span-6"
                                         />
-                                        <button onClick={() => removeField(index)} className="text-red-400 hover:text-red-500 text-2xl md:col-span-1">
+                                        <button
+                                            onClick={() => removeField(index)}
+                                            className="text-2xl text-red-500 transition hover:text-red-600 md:col-span-1"
+                                        >
                                             ×
                                         </button>
                                     </div>
                                 ))}
                             </div>
 
-                            <button onClick={addField} className="text-purple-400 hover:text-purple-300 flex items-center gap-2">
-                                + Thêm trường metadata mới
+                            <button
+                                onClick={addField}
+                                className="flex items-center gap-2 text-sm font-medium text-violet-600 transition hover:text-violet-700 dark:text-violet-400"
+                            >
+                                + Add a new metadata field
                             </button>
 
                             <div className="flex justify-between pt-8">
-                                <button onClick={prev} className="px-8 py-4 border border-zinc-700 hover:bg-zinc-800 rounded-2xl">
-                                    ← Quay lại
+                                <button
+                                    onClick={prev}
+                                    className="rounded-2xl border border-slate-200 bg-white px-8 py-4 font-semibold text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+                                >
+                                    ← Back
                                 </button>
-                                <button onClick={next} className="px-12 py-4 bg-purple-600 hover:bg-purple-700 rounded-2xl font-semibold">
-                                    Tiếp tục →
+                                <button
+                                    onClick={next}
+                                    className="rounded-2xl bg-violet-600 px-12 py-4 font-semibold text-white transition hover:bg-violet-700"
+                                >
+                                    Continue →
                                 </button>
                             </div>
                         </div>
                     )}
 
-                    {/* Step 3: Review */}
                     {step === 3 && (
                         <div className="space-y-10">
-                            <h2 className="text-3xl font-semibold text-center">Xem lại thay đổi</h2>
+                            <h2 className="text-center text-3xl font-semibold">Review Changes</h2>
 
-                            <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-8">
-                                <pre className="text-sm text-emerald-300 overflow-auto max-h-96 font-mono whitespace-pre-wrap">
+                            <div className="rounded-[1.5rem] border border-slate-200/80 bg-slate-50/70 p-8 dark:border-slate-800 dark:bg-slate-950/50">
+                                <pre className="max-h-96 overflow-auto whitespace-pre-wrap wrap-break-word font-mono text-sm text-slate-700 dark:text-slate-300">
                                     {JSON.stringify(Object.fromEntries(metadata.map((m) => [m.key, m.value])), null, 2)}
                                 </pre>
                             </div>
 
                             <div className="flex justify-between">
-                                <button onClick={prev} className="px-8 py-4 border border-zinc-700 hover:bg-zinc-800 rounded-2xl">
-                                    ← Sửa lại
+                                <button
+                                    onClick={prev}
+                                    className="rounded-2xl border border-slate-200 bg-white px-8 py-4 font-semibold text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+                                >
+                                    ← Edit again
                                 </button>
                                 <button
                                     onClick={handleUpdate}
                                     disabled={isUpdating}
-                                    className="px-12 py-4 bg-emerald-600 hover:bg-emerald-700 disabled:bg-zinc-700 rounded-2xl font-semibold flex items-center gap-3"
+                                    className="flex items-center gap-3 rounded-2xl bg-emerald-600 px-12 py-4 font-semibold text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-slate-400"
                                 >
                                     {isUpdating ? (
                                         <>
-                                            <CircleLoader className="animate-spin" /> Đang cập nhật...
+                                            <CircleLoader className="animate-spin" /> Updating...
                                         </>
                                     ) : (
-                                        "Xác nhận cập nhật Metadata"
+                                        "Confirm metadata update"
                                     )}
                                 </button>
                             </div>
                         </div>
                     )}
 
-                    {/* Step 4: Success */}
                     {step === 4 && (
-                        <div className="text-center py-12 space-y-12">
-                            <div className="mx-auto w-24 h-24 rounded-full bg-emerald-900/50 flex items-center justify-center">
-                                <MdCheckCircle className="w-20 h-20 text-emerald-400" />
+                        <div className="space-y-12 py-12 text-center">
+                            <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/40">
+                                <MdCheckCircle className="h-20 w-20 text-emerald-600 dark:text-emerald-400" />
                             </div>
 
                             <div>
-                                <h2 className="text-4xl font-bold text-emerald-400">Cập nhật thành công!</h2>
-                                <p className="text-zinc-400 mt-4">Metadata của NFT đã được cập nhật trên blockchain.</p>
+                                <h2 className="text-4xl font-semibold text-emerald-600 dark:text-emerald-400">Update successful!</h2>
+                                <p className="mt-4 text-slate-500 dark:text-slate-400">The NFT metadata has been updated on chain.</p>
                             </div>
 
                             {txHash && (
-                                <div className="max-w-lg mx-auto bg-zinc-950 border border-emerald-900 rounded-2xl p-6">
-                                    <p className="text-emerald-400 text-sm mb-2">Transaction Hash</p>
+                                <div className="mx-auto max-w-lg rounded-[1.3rem] border border-emerald-200 bg-emerald-50 p-6 dark:border-emerald-900/50 dark:bg-emerald-950/40">
+                                    <p className="mb-2 text-sm font-medium text-emerald-700 dark:text-emerald-400">Transaction Hash</p>
                                     <a
                                         href={`https://preview.cardanoscan.io/transaction/${txHash}`}
                                         target="_blank"
-                                        className="font-mono text-sm break-all text-emerald-300 hover:underline"
+                                        className="break-all font-mono text-sm text-emerald-700 underline-offset-4 hover:underline dark:text-emerald-300"
                                     >
                                         {txHash}
                                     </a>
                                 </div>
                             )}
 
-                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                            <div className="flex flex-col justify-center gap-4 sm:flex-row">
                                 <button
                                     onClick={() => router.push(`/nft/${data?.onchain_metadata?.assetName}`)}
-                                    className="px-10 py-5 bg-white text-black font-semibold rounded-2xl hover:bg-zinc-200"
+                                    className="rounded-2xl bg-slate-900 px-10 py-5 font-semibold text-white transition hover:bg-slate-700 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200"
                                 >
-                                    Quay về chi tiết NFT
+                                    Back to NFT details
                                 </button>
                                 <button
                                     onClick={() => {
                                         setStep(1);
                                         setTxHash("");
                                     }}
-                                    className="px-10 py-5 border border-zinc-700 hover:bg-zinc-800 rounded-2xl font-semibold"
+                                    className="rounded-2xl border border-slate-200 bg-white px-10 py-5 font-semibold text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
                                 >
-                                    Cập nhật NFT khác
+                                    Update another NFT
                                 </button>
                             </div>
                         </div>
