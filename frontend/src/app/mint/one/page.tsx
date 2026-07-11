@@ -212,14 +212,14 @@ export default function Page() {
                                             placeholder="Key (e.g.: name, description, image...)"
                                             value={field.key}
                                             onChange={(e) => updateMetadata(index, "key", e.target.value)}
-                                            className="rounded-2xl border border-slate-200 bg-white/90 px-5 py-3 text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 md:col-span-5"
+                                            className="rounded-2xl border border-slate-200 bg-white/90 px-5 py-3 text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder-slate-500 md:col-span-5"
                                         />
                                         <input
                                             type="text"
                                             placeholder="Value"
                                             value={field.value}
                                             onChange={(e) => updateMetadata(index, "value", e.target.value)}
-                                            className="rounded-2xl border border-slate-200 bg-white/90 px-5 py-3 text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 md:col-span-6"
+                                            className="rounded-2xl border border-slate-200 bg-white/90 px-5 py-3 text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder-slate-500 md:col-span-6"
                                         />
                                         <button
                                             onClick={() => removeMetadata(index)}

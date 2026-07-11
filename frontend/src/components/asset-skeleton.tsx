@@ -8,6 +8,10 @@ export default function AssetSkeleton() {
                 <div className="h-4 w-5/6 rounded-full bg-slate-200 dark:bg-slate-800" />
                 <div className="h-4 w-4/6 rounded-full bg-slate-200 dark:bg-slate-800" />
             </div>
+            <div className="mt-4 flex items-center justify-between">
+                <div className="h-8 w-20 rounded-full bg-slate-200 dark:bg-slate-800" />
+                <div className="h-8 w-16 rounded-full bg-slate-200 dark:bg-slate-800" />
+            </div>
         </div>
     );
 }

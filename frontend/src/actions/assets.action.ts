@@ -55,3 +55,8 @@ export async function getAsset({ walletAddress, policyId, assetName }: { walletA
         throw Error(String(error));
     }
 }
+
+
+export async function getHistory({}) {
+
+}

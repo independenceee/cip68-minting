@@ -86,7 +86,7 @@ export default function SignIn() {
                         </div>
 
                         <div className="flex flex-col gap-6 lg:flex-row">
-                            <section className="flex flex-wrap gap-3 lg:w-[220px] lg:flex-col lg:gap-3">
+                            <section className="flex flex-wrap gap-3 lg:w-56 lg:flex-col lg:gap-3">
                                 {networks.map(({ image, name }, index: number) => (
                                     <Network
                                         image={image}
@@ -98,7 +98,7 @@ export default function SignIn() {
                                 ))}
                             </section>
                             <section className="flex-1 rounded-[1.4rem] border border-slate-200/70 bg-slate-50/80 p-4 dark:border-slate-800 dark:bg-slate-950/50">
-                                <div className="flex max-h-[320px] flex-col gap-3 overflow-y-auto pr-1">
+                                <div className="flex max-h-80 flex-col gap-3 overflow-y-auto pr-1">
                                     {wallets.map((wallet: WalletType, index: number) => (
                                         <Wallet key={index} wallet={wallet} session={session} />
                                     ))}
