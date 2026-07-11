@@ -6,5 +6,5 @@ export const routers = {
     mintMultiple: "/mint/multiple",
 
     dashboard: "/dashboard",
-    documentation: "/document",
+    documentation: "https://cips.cardano.org/cip/CIP-68",
 };
