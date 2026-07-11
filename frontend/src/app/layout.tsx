@@ -26,7 +26,7 @@ export default async function RootLayout({
                     <main className="relative isolate overflow-x-hidden">
                         <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,_rgba(96,165,250,0.12),_transparent_35%),radial-gradient(circle_at_top_right,_rgba(168,85,247,0.12),_transparent_30%)]" />
                         <Header />
-                        <div className="relative flex min-h-screen flex-col pt-24">{children}</div>
+                        <div className="relative flex min-h-screen flex-col">{children}</div>
                         <Footer />
                     </main>
                 </Provider>
