@@ -10,6 +10,7 @@
         "contract:check": "cd ./contract && aiken check"
     },
     "dependencies": {
+        "@blockfrost/blockfrost-js": "^6.1.1",
         "@hookform/resolvers": "^5.2.2",
         "@icons-pack/react-simple-icons": "^13.13.0",
         "@meshsdk/core": "^1.9.1",
